@@ -1,0 +1,68 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin Admin",
+      "email": "admin@gmail.com",
+      "password": "admin",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Moderator Moderator",
+      "email": "moderator@gmail.com",
+      "password": "moderator",
+      "role": "moderator"
+    }
+  ],
+  "cows": [
+    {
+      "id": 1,
+      "entryDate": "21/02/2024",
+      "breed": "Holstein"
+    },
+    {
+      "id": 2,
+      "entryDate": "21/02/2024",
+      "breed": "Montbéliarde"
+    }
+  ],
+  "milk": [
+    {
+      "id": 1,
+      "ProductionDate": "21/02/2024",
+      "quantity": 20,
+      "cowId": 1
+    },
+    {
+      "id": 2,
+      "ProductionDate": "21/02/2024",
+      "quantity": 30,
+      "cowId": 2
+    }
+  ],
+  "MedicalCheckup": [
+    {
+      "id": 1,
+      "checkupDate": "21/02/2024",
+      "cowId": 1
+    },
+    {
+      "id": 2,
+      "checkupDate": "21/02/2024",
+      "cowId": 2
+    }
+  ],
+  "Births": [
+    {
+      "id": 1,
+      "birthDate": "21/02/2024",
+      "cowId": 1
+    },
+    {
+      "id": 2,
+      "birthDate": "21/02/2024",
+      "cowId": 2
+    }
+  ]
+}
