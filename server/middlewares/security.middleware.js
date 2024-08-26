@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { rateLimit } = require('express-rate-limit');
 const helmet = require('helmet');
-const { WINDOW_MS, RATE_MAX } = require('../config');
+const { WINDOW_MS, RATE_MAX } = require('../config/constants');
 
 const securityMiddleware = () => {
   const app = express();

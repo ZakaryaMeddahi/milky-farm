@@ -13,6 +13,12 @@
       "email": "moderator@gmail.com",
       "password": "moderator",
       "role": "moderator"
+    },
+    {
+      "id": 1,
+      "name": "Zakarya Meddahi",
+      "email": "email@gmail.com",
+      "password": "$2a$10$QIMVWYOgw0.fz3O0xPQpiO8Ia780Vj3DsugCxLlr/Nv6o8mStOb5C"
     }
   ],
   "cows": [

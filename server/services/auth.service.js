@@ -1,3 +1,5 @@
+const { matchPassword, hashPassword } = require('../helpers/bcrypt.helper');
+const { createJWT } = require('../helpers/jwt.helper');
 const User = require('../models/User');
 const { UnauthorizedError, BadRequestError } = require('../utils/errors');
 
@@ -7,24 +9,25 @@ const registerUser = async (data) => {
   if (user) {
     throw new BadRequestError('Email already exists');
   }
+  data.password = await hashPassword(data.password);
   const newUser = await User.create(data);
-  return await newUser.save();
+  return newUser;
 };
 
 const loginUser = async (data) => {
   const { email, password } = data;
   const user = await User.findOne({ email });
 
-  if (!user) throw new UnauthorizedError('Email or Password is incorrect');
+  if (!user) throw new UnauthorizedError('Email is incorrect');
 
-  const validPassword = await user.matchPassword(password);
+  const validPassword = await matchPassword(password, user.password);
 
-  if (!validPassword)
-    throw new UnauthorizedError('Email or Password is incorrect');
+  if (!validPassword) throw new UnauthorizedError('Password is incorrect');
 
-  const token = user.createJWT();
+  const { id, name } = user;
+  const token = createJWT({ id, name, email });
 
-  return { ...user._doc, token };
+  return { ...user, token };
 };
 
 module.exports = {

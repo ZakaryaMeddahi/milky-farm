@@ -1,38 +1,31 @@
 const express = require('express');
 require('dotenv').config();
-const connectDB = require('./db/connect');
-const { PORT, URI, API_VERSION } = require('./config');
+const { PORT, API_VERSION } = require('./config/constants');
 
 require('./config/passport'); // passport config must be imported before routes!
 
-// Import Middlewares
+// import middlewares
 const securityMiddleware = require('./middlewares/security.middleware');
 const errorHandler = require('./middlewares/error.middleware');
 const authMiddleware = require('./middlewares/auth.middleware');
 
-// Import Routers
+// import routers
 const authRouter = require('./routes/auth.router');
-const reportRouter = require('./routes/reports.router');
 
-// Initialize App
+// initialize app
 const app = express();
 
-// Middlewares
+// middlewares
 app.use(securityMiddleware());
 app.use(express.json());
 
-// Routes
+// routes
 app.use(`${API_VERSION}/auth`, authRouter);
 
-// Error Handler Middleware
+// error handler middleware
 app.use(errorHandler);
 
-// Start Server
-app.listen(PORT, async () => {
-  try {
-    await connectDB(URI);
-    console.log(`Server is running on port ${PORT}`);
-  } catch (error) {
-    console.error(`Error connecting to the server: ${error}`);
-  }
+// start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
