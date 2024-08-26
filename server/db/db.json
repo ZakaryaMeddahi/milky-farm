@@ -30,30 +30,32 @@
   "milkProduction": [
     {
       "id": 1,
-      "ProductionDate": "21/02/2024",
+      "productionDate": "21/02/2024",
       "quantity": 20,
       "cowId": 1
     },
     {
       "id": 2,
-      "ProductionDate": "21/02/2024",
+      "productionDate": "21/02/2024",
       "quantity": 30,
       "cowId": 2
     }
   ],
-  "MedicalCheckup": [
+  "medicalCheckup": [
     {
       "id": 1,
       "checkupDate": "21/02/2024",
+      "illness": "cough",
       "cowId": 1
     },
     {
       "id": 2,
       "checkupDate": "21/02/2024",
+      "illness": "Respiratory infection",
       "cowId": 2
     }
   ],
-  "Births": [
+  "births": [
     {
       "id": 1,
       "birthDate": "21/02/2024",
