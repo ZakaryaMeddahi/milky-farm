@@ -27,7 +27,7 @@
       "breed": "Montbéliarde"
     }
   ],
-  "milk": [
+  "milkProduction": [
     {
       "id": 1,
       "ProductionDate": "21/02/2024",
