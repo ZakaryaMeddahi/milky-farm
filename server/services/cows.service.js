@@ -1,22 +1,22 @@
 const Cow = require('../models/Cow');
 const { NotFoundError } = require('../utils/errors');
 
-const createCow = async (cowCow) => {
-  const newBirth = await Cow.create(cowCow);
+const createCow = async (cow) => {
+  const newBirth = await Cow.create(cow);
   return newBirth;
 };
 
 const findCows = async (filterOptions) => {
-  const cowCows = await Cow.find(filterOptions);
-  return cowCows;
+  const cows = await Cow.find(filterOptions);
+  return cows;
 };
 
 const findCow = async (id) => {
-  const cowCow = await Cow.findById(id);
-  if (!cowCow) {
+  const cow = await Cow.findById(id);
+  if (!cow) {
     throw new NotFoundError('There is no cow record with this id');
   }
-  return cowCow;
+  return cow;
 };
 
 const updateCow = async (id, cow) => {
