@@ -1,0 +1,67 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+          enum: [moderator, admin]
+      example:
+        id: 1
+        email: fake@example.com
+        name: fake name
+        role: moderator
+
+    Token:
+      token:
+        type: string
+      example:
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+
+  responses:
+    DuplicateEmail:
+      description: Email already exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            status: error
+            message: Email already Exist
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: string
+          example: Unauthorized
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            status: 'error'
+            message: Forbidden
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
