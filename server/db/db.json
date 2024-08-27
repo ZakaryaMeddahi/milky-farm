@@ -2,49 +2,33 @@
   "users": [
     {
       "id": 1,
-      "name": "Admin Admin",
-      "email": "admin@gmail.com",
-      "password": "admin",
-      "role": "admin"
-    },
-    {
-      "id": 2,
-      "name": "Moderator Moderator",
-      "email": "moderator@gmail.com",
-      "password": "moderator",
-      "role": "moderator"
-    },
-    {
-      "id": 1,
       "name": "Zakarya Meddahi",
-      "email": "email@gmail.com",
-      "password": "$2a$10$QIMVWYOgw0.fz3O0xPQpiO8Ia780Vj3DsugCxLlr/Nv6o8mStOb5C"
+      "email": "admin@gmail.com",
+      "password": "$2a$10$CuKNxTgQ5PmsFebl2AVaOezacB42.j4UE.ZmwVdOwXPGI6.ZlNPb2"
     }
   ],
   "cows": [
     {
-      "id": 1,
-      "entryDate": "21/02/2024",
-      "breed": "Holstein"
-    },
-    {
       "id": 2,
       "entryDate": "21/02/2024",
       "breed": "Montbéliarde"
+    },
+    {
+      "id": 3,
+      "entryDate": "23/08/2024",
+      "breed": "Holstein"
     }
   ],
   "milkProduction": [
     {
       "id": 1,
       "productionDate": "21/02/2024",
-      "quantity": 20,
-      "cowId": 1
+      "quantity": 20
     },
     {
       "id": 2,
       "productionDate": "21/02/2024",
-      "quantity": 30,
-      "cowId": 2
+      "quantity": 30
     }
   ],
   "medicalCheckup": [
@@ -65,12 +49,12 @@
     {
       "id": 1,
       "birthDate": "21/02/2024",
-      "cowId": 1
+      "motherCowId": 1
     },
     {
       "id": 2,
       "birthDate": "21/02/2024",
-      "cowId": 2
+      "motherCowId": 2
     }
   ]
 }

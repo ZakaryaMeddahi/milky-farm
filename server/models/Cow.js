@@ -111,6 +111,6 @@ const runTest = async () => {
   await testDelete();
 };
 
-runTest();
+// runTest();
 
 module.exports = Cow;

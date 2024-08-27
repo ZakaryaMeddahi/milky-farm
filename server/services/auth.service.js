@@ -18,11 +18,11 @@ const loginUser = async (data) => {
   const { email, password } = data;
   const user = await User.findOne({ email });
 
-  if (!user) throw new UnauthorizedError('Email is incorrect');
+  if (!user) throw new UnauthorizedError('Invalid email');
 
   const validPassword = await matchPassword(password, user.password);
 
-  if (!validPassword) throw new UnauthorizedError('Password is incorrect');
+  if (!validPassword) throw new UnauthorizedError('Invalid password');
 
   const { id, name } = user;
   const token = createJWT({ id, name, email });

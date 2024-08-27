@@ -11,6 +11,7 @@ const register = async (req, res, next) => {
     //   return next(err);
     // }
     const { body } = req;
+    body.role = 'moderator';
     const { id, name, email, role } = await registerUser(body);
     res.status(StatusCodes.CREATED).json({
       status: 'success',
