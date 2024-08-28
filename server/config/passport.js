@@ -14,10 +14,10 @@ passport.use(
       console.log('Token expired');
       return done(null, false, 'Token expired');
     }
-    const { id, username, email, role } = payload;
+    const { id, name, email, role } = payload;
     return done(
       null,
-      { id, username, email, role },
+      { id, name, email, role },
       { message: 'You are authorized' }
     );
   })

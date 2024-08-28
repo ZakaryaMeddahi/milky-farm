@@ -48,11 +48,11 @@ const login = async (req, res, next) => {
 
 const getMyAccount = (req, res, next) => {
   try {
-    const { id, username, email, role } = req.user;
+    const { id, name, email, role } = req.user;
     res.status(StatusCodes.OK).json({
       status: 'success',
       message: 'User account retrieved successfully',
-      user: { id, username, email, role },
+      user: { id, name, email, role },
     });
   } catch (err) {
     console.error(err);

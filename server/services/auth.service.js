@@ -24,8 +24,8 @@ const loginUser = async (data) => {
 
   if (!validPassword) throw new UnauthorizedError('Invalid password');
 
-  const { id, name } = user;
-  const token = createJWT({ id, name, email });
+  const { id, name, role } = user;
+  const token = createJWT({ id, name, email, role });
 
   return { ...user, token };
 };
