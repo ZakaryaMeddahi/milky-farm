@@ -6,15 +6,15 @@ const createMilkProduction = async (data) => {
   return newMilkProduction;
 };
 
-const findMilkProductions = async (options) => {
-  const milkProductions = await MilkProduction.find(options);
+const findMilkProductions = async (filterOptions) => {
+  const milkProductions = await MilkProduction.find();
   return milkProductions;
 };
 
 const findMilkProduction = async (id) => {
   const milkProduction = await MilkProduction.findById(id);
   if (!milkProduction) {
-    throw new NotFoundError(`Milk production with id ${id} not found`);
+    throw new NotFoundError('There is no milk production record with this id');
   }
   return milkProduction;
 };
@@ -22,7 +22,7 @@ const findMilkProduction = async (id) => {
 const updateMilkProduction = async (id, data) => {
   const updatedMilkProduction = await MilkProduction.update(id, data);
   if (!updatedMilkProduction) {
-    throw new NotFoundError(`Milk production with id ${id} not found`);
+    throw new NotFoundError('There is no milk production record with this id');
   }
   return updatedMilkProduction;
 };
@@ -30,7 +30,7 @@ const updateMilkProduction = async (id, data) => {
 const deleteMilkProduction = async (id) => {
   const deletedMilkProduction = await MilkProduction.delete(id);
   if (!deletedMilkProduction) {
-    throw new NotFoundError(`Milk production with id ${id} not found`);
+    throw new NotFoundError('There is no milk production record with this id');
   }
   return deletedMilkProduction;
 };

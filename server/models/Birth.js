@@ -2,10 +2,11 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class Birth extends Model {
-  constructor(birthDate, motherCowId) {
+  constructor(birthDate, motherCowId, insertedBy) {
     super(ID_TYPE.INCREMENT);
     this.birthDate = birthDate;
     this.motherCowId = motherCowId;
+    this.insertedBy = insertedBy;
   }
 
   static initializeModel() {
@@ -14,8 +15,8 @@ class Birth extends Model {
 
   static async create(birth) {
     this.initializeModel();
-    const { birthDate, motherCowId } = birth;
-    const newBirth = await super.create(birthDate, motherCowId);
+    const { birthDate, motherCowId, insertedBy } = birth;
+    const newBirth = await super.create(birthDate, motherCowId, insertedBy);
     return newBirth;
   }
 
@@ -55,6 +56,7 @@ async function testCreate() {
   const birth = {
     birthDate: '21/02/2024',
     motherCowId: 1,
+    insertedBy: 1,
   };
 
   for (let i = 0; i < 2; i++) {
@@ -86,6 +88,7 @@ async function testUpdate() {
   const birth = {
     birthDate: '21/04/2024',
     motherCowId: 2,
+    insertedBy: 2,
   };
 
   const updatedBirth = await Birth.update(1, birth);

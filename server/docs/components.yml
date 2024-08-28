@@ -19,11 +19,86 @@ components:
         name: fake name
         role: moderator
 
+    Cow:
+      type: object
+      properties:
+        id:
+          type: number
+        entryDate:
+          type: string
+          format: date
+        breed:
+          type: string
+          enum: [Holstein, Montbéliarde]
+        insertedBy:
+          type: number
+      example:
+        id: 10
+        entryDate: '12/12/2023'
+        breed: Holstein
+        insertedBy: 1
+
+    MilkProduction:
+      type: object
+      properties:
+        id:
+          type: number
+        productionDate:
+          type: string
+          format: date
+        quantity:
+          type: number
+        insertedBy:
+          type: number
+      example:
+        id: 1
+        productionDate: '21/02/2024'
+        quantity: 20
+        insertedBy: 1
+
+    MedicalCheckup:
+      type: object
+      properties:
+        id:
+          type: number
+        checkupDate:
+          type: string
+          format: date
+        illness:
+          type: string
+        cowId:
+          type: number
+        insertedBy:
+          type: number
+      example:
+        id: 1
+        checkupDate: '21/02/2024'
+        illness: cough
+        cowId: 1
+        insertedBy: 1
+
+    Birth:
+      type: object
+      properties:
+        id:
+          type: number
+        birthDate:
+          type: string
+          format: date
+        motherCowId:
+          type: number
+        insertedBy:
+          type: number
+      example:
+        id: 2
+        birthDate: '21/02/2024'
+        motherCowId: 2
+        insertedBy: 1
+
     Token:
       token:
         type: string
-      example:
-        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
 
     Error:
       type: object

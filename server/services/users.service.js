@@ -2,8 +2,8 @@ const User = require('../models/User');
 const { NotFoundError } = require('../utils/errors');
 
 const findUsers = async (filterOptions) => {
-  const users = await User.find(filterOptions);
-  for (const user in users) {
+  const users = await User.find();
+  for (const user of users) {
     delete user.password;
   }
   return users;

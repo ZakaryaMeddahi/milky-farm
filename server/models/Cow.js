@@ -3,11 +3,12 @@ const { ID_TYPE } = require('../config/constants');
 const { BREED } = require('../utils/db/constants');
 
 class Cow extends Model {
-  constructor(id, entryDate, breed) {
+  constructor(id, entryDate, breed, insertedBy) {
     super(ID_TYPE.CUSTOM);
     this.id = id;
     this.entryDate = entryDate;
     this.breed = breed;
+    this.insertedBy = insertedBy;
   }
 
   static initializeModel() {
@@ -16,8 +17,8 @@ class Cow extends Model {
 
   static async create(cow) {
     this.initializeModel();
-    const { id, entryDate, breed } = cow;
-    const newCow = await super.create(id, entryDate, breed);
+    const { id, entryDate, breed, insertedBy } = cow;
+    const newCow = await super.create(id, entryDate, breed, insertedBy);
     return newCow;
   }
 
@@ -58,6 +59,7 @@ async function testCreate() {
     id: 1,
     entryDate: '21/02/2024',
     breed: BREED.MONTEBILIARDE,
+    insertedBy: 1,
   };
 
   for (let i = 0; i < 2; i++) {
@@ -90,6 +92,7 @@ async function testUpdate() {
     id: 1,
     entryDate: '21/02/2024',
     breed: BREED.HOLSTEIN,
+    insertedBy: 2,
   };
 
   const updatedCow = await Cow.update(1, cow);

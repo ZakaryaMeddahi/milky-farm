@@ -60,8 +60,6 @@ const authMiddleware = require('../middlewares/auth.middleware');
  *                   example: User registered successfully
  *                 user:
  *                   $ref: '#/components/schemas/User'
- *                 token:
- *                   $ref: '#/components/schemas/Token'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  */

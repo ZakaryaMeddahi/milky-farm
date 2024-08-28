@@ -1,7 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const userService = require('../services/users.service');
 
-const getUsers = async () => {
+const getUsers = async (req, res, next) => {
   try {
     const users = await userService.findUsers();
     res.status(StatusCodes.OK).json({
@@ -15,7 +15,7 @@ const getUsers = async () => {
   }
 };
 
-const getUser = async () => {
+const getUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await userService.findUser(parseInt(id));
@@ -30,7 +30,7 @@ const getUser = async () => {
   }
 };
 
-const updateUser = async () => {
+const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updatedUser = await userService.updateUser(parseInt(id), req.body);
@@ -45,11 +45,14 @@ const updateUser = async () => {
   }
 };
 
-const deleteUser = async () => {
+const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     await userService.deleteUser(parseInt(id));
-    res.status(StatusCodes.NO_CONTENT).send();
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      message: 'User deleted successfully',
+    });
   } catch (err) {
     console.error(err);
     next(err);

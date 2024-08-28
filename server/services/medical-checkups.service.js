@@ -1,25 +1,46 @@
+const Cow = require('../models/Cow');
 const MedicalCheckup = require('../models/MedicalCheckup');
 const { NotFoundError } = require('../utils/errors');
 
-const createMedicalCheckup = async (medicalCheckup) => {
-  const newMedicalCheckup = await MedicalCheckup.create(medicalCheckup);
+const createMedicalCheckup = async (cowId, medicalCheckup) => {
+  console.log(cowId);
+  const cow = await Cow.findById(cowId);
+  if (!cow) {
+    throw new NotFoundError('There is no cow with this id');
+  }
+  const newMedicalCheckup = await MedicalCheckup.create({
+    ...medicalCheckup,
+    cowId,
+  });
   return newMedicalCheckup;
 };
 
-const findMedicalCheckups = async (filterOptions) => {
-  const medicalCheckups = await MedicalCheckup.find(filterOptions);
+const findMedicalCheckups = async (cowId, filterOptions) => {
+  const cow = await Cow.findById(cowId);
+  if (!cow) {
+    throw new NotFoundError('There is no cow with this id');
+  }
+  const medicalCheckups = await MedicalCheckup.find({ cowId });
   return medicalCheckups;
 };
 
-const findMedicalCheckup = async (id) => {
-  const medicalCheckup = await MedicalCheckup.findById(id);
+const findMedicalCheckup = async (id, cowId) => {
+  const cow = await Cow.findById(cowId);
+  if (!cow) {
+    throw new NotFoundError('There is no cow with this id');
+  }
+  const medicalCheckup = await MedicalCheckup.findOne({ id, cowId });
   if (!medicalCheckup) {
     throw new NotFoundError('There is no medical checkup with this id');
   }
   return medicalCheckup;
 };
 
-const updateMedicalCheckup = async (id, medicalCheckup) => {
+const updateMedicalCheckup = async (id, cowId, medicalCheckup) => {
+  const cow = await Cow.findById(cowId);
+  if (!cow) {
+    throw new NotFoundError('There is no cow with this id');
+  }
   const updatedMedicalCheckup = await MedicalCheckup.update(id, medicalCheckup);
   if (!medicalCheckup) {
     throw new NotFoundError('There is no medical checkup with this id');
@@ -27,7 +48,11 @@ const updateMedicalCheckup = async (id, medicalCheckup) => {
   return updatedMedicalCheckup;
 };
 
-const deleteMedicalCheckup = async (id) => {
+const deleteMedicalCheckup = async (id, cowId) => {
+  const cow = await Cow.findById(cowId);
+  if (!cow) {
+    throw new NotFoundError('There is no cow with this id');
+  }
   const deletedMedicalCheckup = await MedicalCheckup.delete(id);
   if (!deletedMedicalCheckup) {
     throw new NotFoundError('There is no medical checkup with this id');

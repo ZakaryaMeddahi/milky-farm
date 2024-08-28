@@ -4,31 +4,43 @@
       "id": 1,
       "name": "Zakarya Meddahi",
       "email": "admin@gmail.com",
-      "password": "$2a$10$CuKNxTgQ5PmsFebl2AVaOezacB42.j4UE.ZmwVdOwXPGI6.ZlNPb2"
+      "password": "$2a$10$CuKNxTgQ5PmsFebl2AVaOezacB42.j4UE.ZmwVdOwXPGI6.ZlNPb2",
+      "role": "admin"
+    },
+    {
+      "id": 1,
+      "name": "fake name",
+      "email": "fake@example.com",
+      "password": "$2a$10$axUZOEJlakb9fwWQxkxtlONYS4YhU2v2kkg.fhDJkE6oyduzwfuZa",
+      "role": "moderator"
     }
   ],
   "cows": [
     {
-      "id": 2,
-      "entryDate": "21/02/2024",
-      "breed": "Montbéliarde"
+      "id": 1,
+      "entryDate": "12/12/2023",
+      "breed": "Holstein",
+      "insertedBy": 1
     },
     {
-      "id": 3,
+      "id": 2,
       "entryDate": "23/08/2024",
-      "breed": "Holstein"
+      "breed": "Holstein",
+      "insertedBy": 1
     }
   ],
   "milkProduction": [
     {
       "id": 1,
-      "productionDate": "21/02/2024",
-      "quantity": 20
+      "productionDate": "12/12/2023",
+      "quantity": 50,
+      "insertedBy": 1
     },
     {
       "id": 2,
       "productionDate": "21/02/2024",
-      "quantity": 30
+      "quantity": 30,
+      "insertedBy": 1
     }
   ],
   "medicalCheckup": [
@@ -36,25 +48,29 @@
       "id": 1,
       "checkupDate": "21/02/2024",
       "illness": "cough",
-      "cowId": 1
+      "cowId": 1,
+      "insertedBy": 1
     },
     {
       "id": 2,
       "checkupDate": "21/02/2024",
       "illness": "Respiratory infection",
-      "cowId": 2
+      "cowId": 2,
+      "insertedBy": 1
     }
   ],
   "births": [
     {
       "id": 1,
-      "birthDate": "21/02/2024",
-      "motherCowId": 1
+      "birthDate": "12/06/2023",
+      "motherCowId": 1,
+      "insertedBy": 1
     },
     {
       "id": 2,
       "birthDate": "21/02/2024",
-      "motherCowId": 2
+      "motherCowId": 2,
+      "insertedBy": 1
     }
   ]
 }

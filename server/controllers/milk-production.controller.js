@@ -3,9 +3,11 @@ const milkProductionService = require('../services/milk-production.service');
 
 const createMilkProduction = async (req, res, next) => {
   try {
-    const newMilkProduction = await milkProductionService.createMilkProduction(
-      req.body
-    );
+    const { id: userId } = req.user;
+    const newMilkProduction = await milkProductionService.createMilkProduction({
+      ...req.body,
+      insertedBy: userId,
+    });
     res.status(StatusCodes.CREATED).json({
       status: 'success',
       message: 'Milk production record created successfully',
@@ -69,12 +71,10 @@ const updateMilkProduction = async (req, res, next) => {
 const deleteMilkProduction = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedMilkProduction =
-      await milkProductionService.deleteMilkProduction(parseInt(id));
+    await milkProductionService.deleteMilkProduction(parseInt(id));
     res.status(StatusCodes.OK).json({
       status: 'success',
       message: 'Milk production record deleted successfully',
-      milkProduction: deletedMilkProduction,
     });
   } catch (err) {
     console.error(err);

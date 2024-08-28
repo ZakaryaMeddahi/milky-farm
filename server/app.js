@@ -14,7 +14,11 @@ const authMiddleware = require('./middlewares/auth.middleware');
 
 // import routers
 const authRouter = require('./routes/auth.router');
+const usersRouter = require('./routes/users.router');
 const cowsRouter = require('./routes/cows.router');
+const birthsRouter = require('./routes/births.router');
+const medicalCheckupsRouter = require('./routes/medical-checkups.router');
+const milkProductionRouter = require('./routes/milk-production.router');
 
 // initialize app
 const app = express();
@@ -32,7 +36,15 @@ app.use(`/docs`, swaggerUI.serve, swaggerUI.setup(specs, { explorer: true }));
 
 // routes
 app.use(`${API_VERSION}/auth`, authRouter);
-app.use(`${API_VERSION}/cows`, authMiddleware, cowsRouter);
+app.use(`${API_VERSION}/users`, authMiddleware, usersRouter);
+app.use(
+  `${API_VERSION}/cows`,
+  authMiddleware,
+  cowsRouter,
+  birthsRouter,
+  medicalCheckupsRouter
+);
+app.use(`${API_VERSION}/milk-production`, authMiddleware, milkProductionRouter);
 
 // error handler middleware
 app.use(errorHandler);

@@ -3,8 +3,14 @@ const medicalCheckupService = require('../services/medical-checkups.service');
 
 const createMedicalCheckup = async (req, res, next) => {
   try {
+    const { id: userId } = req.user;
+    const { cowId } = req.params;
     const newMedicalCheckup = await medicalCheckupService.createMedicalCheckup(
-      req.body
+      parseInt(cowId),
+      {
+        ...req.body,
+        insertedBy: userId,
+      }
     );
     res.status(StatusCodes.CREATED).json({
       status: 'success',
@@ -19,7 +25,9 @@ const createMedicalCheckup = async (req, res, next) => {
 
 const getMedicalCheckups = async (req, res, next) => {
   try {
+    const { cowId } = req.params;
     const medicalCheckups = await medicalCheckupService.findMedicalCheckups(
+      parseInt(cowId),
       req.query
     );
     res.status(StatusCodes.OK).json({
@@ -35,9 +43,10 @@ const getMedicalCheckups = async (req, res, next) => {
 
 const getMedicalCheckup = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id, cowId } = req.params;
     const medicalCheckup = await medicalCheckupService.findMedicalCheckup(
-      parseInt(id)
+      parseInt(id),
+      parseInt(cowId)
     );
     res.status(StatusCodes.OK).json({
       status: 'success',
@@ -52,9 +61,13 @@ const getMedicalCheckup = async (req, res, next) => {
 
 const updateMedicalCheckup = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id, cowId } = req.params;
     const updatedMedicalCheckup =
-      await medicalCheckupService.updateMedicalCheckup(parseInt(id), req.body);
+      await medicalCheckupService.updateMedicalCheckup(
+        parseInt(id),
+        parseInt(cowId),
+        req.body
+      );
     res.status(StatusCodes.OK).json({
       status: 'success',
       message: 'Medical checkup record updated successfully',
@@ -68,13 +81,14 @@ const updateMedicalCheckup = async (req, res, next) => {
 
 const deleteMedicalCheckup = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const deletedMedicalCheckup =
-      await medicalCheckupService.deleteMedicalCheckup(parseInt(id));
+    const { id, cowId } = req.params;
+    await medicalCheckupService.deleteMedicalCheckup(
+      parseInt(id),
+      parseInt(cowId)
+    );
     res.status(StatusCodes.OK).json({
       status: 'success',
       message: 'Medical checkup record deleted successfully',
-      medicalCheckup: deletedMedicalCheckup,
     });
   } catch (err) {
     console.error(err);

@@ -3,7 +3,11 @@ const cowService = require('../services/cows.service');
 
 const createCow = async (req, res, next) => {
   try {
-    const newCow = await cowService.createCow(req.body);
+    const { id: userId } = req.user;
+    const newCow = await cowService.createCow({
+      ...req.body,
+      insertedBy: userId,
+    });
     res.status(StatusCodes.CREATED).json({
       status: 'success',
       message: 'Cow record created successfully',
@@ -62,11 +66,10 @@ const updateCow = async (req, res, next) => {
 const deleteCow = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedCow = await cowService.deleteCow(parseInt(id));
+    await cowService.deleteCow(parseInt(id));
     res.status(StatusCodes.OK).json({
       status: 'success',
-      message: 'Cow record deleted successfully',
-      cow: deletedCow,
+      message: 'Cow record deleted successfully'
     });
   } catch (err) {
     console.error(err);

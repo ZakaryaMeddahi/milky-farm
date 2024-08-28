@@ -2,10 +2,11 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class MilkProduction extends Model {
-  constructor(productionDate, quantity) {
+  constructor(productionDate, quantity, insertedBy) {
     super(ID_TYPE.INCREMENT);
     this.productionDate = productionDate;
     this.quantity = quantity;
+    this.insertedBy = insertedBy;
   }
 
   static initializeModel() {
@@ -14,8 +15,12 @@ class MilkProduction extends Model {
 
   static async create(milkProduction) {
     this.initializeModel();
-    const { productionDate, quantity, cowId } = milkProduction;
-    const newMilkProduction = await super.create(productionDate, quantity);
+    const { productionDate, quantity, insertedBy } = milkProduction;
+    const newMilkProduction = await super.create(
+      productionDate,
+      quantity,
+      insertedBy
+    );
     return newMilkProduction;
   }
 
@@ -55,6 +60,7 @@ async function testCreate() {
   const milkProduction = {
     productionDate: '21/02/2024',
     quantity: 20,
+    insertedBy: 1,
   };
 
   for (let i = 0; i < 2; i++) {
@@ -87,6 +93,7 @@ async function testUpdate() {
   const milkProduction = {
     productionDate: '21/02/2024',
     quantity: 21,
+    insertedBy: 1,
   };
 
   const updatedMilkProduction = await MilkProduction.update(1, milkProduction);

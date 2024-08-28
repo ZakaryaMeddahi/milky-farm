@@ -7,7 +7,7 @@ const createCow = async (cow) => {
 };
 
 const findCows = async (filterOptions) => {
-  const cows = await Cow.find(filterOptions);
+  const cows = await Cow.find();
   return cows;
 };
 
