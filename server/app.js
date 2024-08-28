@@ -32,7 +32,7 @@ const specs = swaggerJSDoc({
   definition: swaggerDef,
   apis: ['./docs/*.yml', './routes/*.js'],
 });
-app.use(`/docs`, swaggerUI.serve, swaggerUI.setup(specs, { explorer: true }));
+app.use(`/docs`, swaggerUI.serve, swaggerUI.setup(specs));
 
 // routes
 app.use(`${API_VERSION}/auth`, authRouter);
