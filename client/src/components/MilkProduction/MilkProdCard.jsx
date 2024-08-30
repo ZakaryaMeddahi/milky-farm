@@ -1,5 +1,6 @@
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { Box, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
+import { Box, Stack, Text, VStack } from '@chakra-ui/react';
+import UpdateProd from './UpdateProd';
+import DeleteProd from './DeleteProd';
 
 const MilkProdCard = ({ milkProd }) => (
   <Box
@@ -21,20 +22,8 @@ const MilkProdCard = ({ milkProd }) => (
       </Text>
     </VStack>
     <Stack justifyContent='center'>
-      <IconButton
-        colorScheme='green'
-        size='sm'
-        ml={2}
-        aria-label='Edit milk production'
-        icon={<EditIcon />}
-      />
-      <IconButton
-        colorScheme='red'
-        size='sm'
-        ml={2}
-        aria-label='Delete production'
-        icon={<DeleteIcon />}
-      />
+      <UpdateProd />
+      <DeleteProd />
     </Stack>
   </Box>
 );

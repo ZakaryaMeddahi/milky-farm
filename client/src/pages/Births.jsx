@@ -6,7 +6,6 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
   TableCaption,
   TableContainer,
   Heading,
@@ -17,15 +16,11 @@ import {
   HStack,
   Flex,
   Stack,
-  IconButton,
 } from '@chakra-ui/react';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DeleteIcon,
-  EditIcon,
-} from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import BirthCard from '../components/Births/BirthCard';
+import NewBirth from '../components/Births/NewBirth';
+import BirthRow from '../components/Births/BirthRow';
 
 // Mock data for demonstration
 const initialBirths = [
@@ -87,7 +82,9 @@ const Births = () => {
 
   return (
     <Box>
-      <Heading mb={6}>Cow Births</Heading>
+      <Heading as='h2' size='lg' mb={6}>
+        Cow Births
+      </Heading>
 
       <Stack spacing={4} mb={6} flexDir={{ base: 'column', md: 'row' }}>
         <Input
@@ -103,6 +100,7 @@ const Births = () => {
           onChange={(e) => setBirthDateFilter(e.target.value)}
           w='100%'
         />
+        <NewBirth />
       </Stack>
 
       <TableContainer display={{ base: 'none', md: 'block' }}>
@@ -118,26 +116,7 @@ const Births = () => {
           </Thead>
           <Tbody>
             {currentBirths.map((birth) => (
-              <Tr key={birth.id}>
-                <Td>{birth.id}</Td>
-                <Td>{birth.birthDate}</Td>
-                <Td>{birth.motherCowId}</Td>
-                <Td>
-                  <IconButton
-                    colorScheme='green'
-                    size='sm'
-                    aria-label='Edit cow'
-                    icon={<EditIcon />}
-                  />
-                  <IconButton
-                    colorScheme='red'
-                    size='sm'
-                    ml={2}
-                    aria-label='Delete cow'
-                    icon={<DeleteIcon />}
-                  />
-                </Td>
-              </Tr>
+              <BirthRow key={birth.id} birth={birth} />
             ))}
           </Tbody>
         </Table>

@@ -6,7 +6,6 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
   TableCaption,
   TableContainer,
   Heading,
@@ -17,15 +16,11 @@ import {
   HStack,
   Flex,
   Stack,
-  IconButton,
 } from '@chakra-ui/react';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DeleteIcon,
-  EditIcon,
-} from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import MilkProdCard from '../components/MilkProduction/MilkProdCard';
+import ProdRow from '../components/MilkProduction/ProdRow';
+import NewProd from '../components/MilkProduction/NewProd';
 
 // Mock data for demonstration
 const initialMilkProds = [
@@ -80,7 +75,9 @@ const MilkProduction = () => {
 
   return (
     <Box>
-      <Heading mb={6}>Milk Production</Heading>
+      <Heading as='h2' size='lg' mb={6}>
+        Milk Production
+      </Heading>
 
       <Stack spacing={4} mb={6} flexDir={{ base: 'column', md: 'row' }}>
         <Input
@@ -90,6 +87,7 @@ const MilkProduction = () => {
           onChange={(e) => setProdDateFilter(e.target.value)}
           w='100%'
         />
+        <NewProd />
       </Stack>
 
       <TableContainer display={{ base: 'none', md: 'block' }}>
@@ -104,25 +102,7 @@ const MilkProduction = () => {
           </Thead>
           <Tbody>
             {currentMilkProds.map((milkProd) => (
-              <Tr key={milkProd.id}>
-                <Td>{milkProd.productionDate}</Td>
-                <Td>{milkProd.quantity}</Td>
-                <Td>
-                  <IconButton
-                    colorScheme='green'
-                    size='sm'
-                    aria-label='Edit milk production'
-                    icon={<EditIcon />}
-                  />
-                  <IconButton
-                    colorScheme='red'
-                    size='sm'
-                    ml={2}
-                    aria-label='Delete milk production'
-                    icon={<DeleteIcon />}
-                  />
-                </Td>
-              </Tr>
+              <ProdRow key={milkProd.id} milkProd={milkProd} />
             ))}
           </Tbody>
         </Table>

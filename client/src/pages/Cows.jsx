@@ -6,7 +6,6 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
   TableCaption,
   TableContainer,
   Heading,
@@ -18,17 +17,12 @@ import {
   HStack,
   Flex,
   Stack,
-  IconButton,
 } from '@chakra-ui/react';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DeleteIcon,
-  EditIcon,
-  ViewIcon,
-} from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import CowCard from '../components/Cows/CowCard';
 import { BREEDS } from '../config/constants';
+import NewCow from '../components/Cows/NewCow';
+import CowRow from '../components/Cows/CowRow';
 
 const cowsData = [
   { id: 1, entryDate: '2023-01-15', breed: 'Holstein', births: 2 },
@@ -45,20 +39,21 @@ const Cows = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // Filter and search logic
   const filteredCows = cowsData.filter(
     (cow) =>
       (breedFilter === '' || cow.breed === breedFilter) &&
       (searchTerm === '' || cow.id.toString().includes(searchTerm))
   );
 
-  // Pagination logic
   const indexOfLastCow = currentPage * itemsPerPage;
   const indexOfFirstCow = indexOfLastCow - itemsPerPage;
   const currentCows = filteredCows.slice(indexOfFirstCow, indexOfLastCow);
+
   return (
     <Box>
-      <Heading mb={6}>Cows</Heading>
+      <Heading as='h2' size='lg' mb={6}>
+        Cows
+      </Heading>
 
       <Stack spacing={4} mb={6} flexDir={{ base: 'column', md: 'row' }}>
         <Input
@@ -79,6 +74,7 @@ const Cows = () => {
             </option>
           ))}
         </Select>
+        <NewCow />
       </Stack>
 
       <TableContainer display={{ base: 'none', md: 'block' }}>
@@ -95,34 +91,7 @@ const Cows = () => {
           </Thead>
           <Tbody>
             {currentCows.map((cow) => (
-              <Tr key={cow.id}>
-                <Td>{cow.id}</Td>
-                <Td>{cow.entryDate}</Td>
-                <Td>{cow.breed}</Td>
-                <Td>{cow.births}</Td>
-                <Td display='flex' justifyContent='center'>
-                  <IconButton
-                    colorScheme='purple'
-                    size='sm'
-                    aria-label='View cow'
-                    icon={<ViewIcon />}
-                  />
-                  <IconButton
-                    colorScheme='green'
-                    size='sm'
-                    ml={2}
-                    aria-label='Edit cow'
-                    icon={<EditIcon />}
-                  />
-                  <IconButton
-                    colorScheme='red'
-                    size='sm'
-                    ml={2}
-                    aria-label='Delete cow'
-                    icon={<DeleteIcon />}
-                  />
-                </Td>
-              </Tr>
+              <CowRow key={cow.id} cow={cow} />
             ))}
           </Tbody>
         </Table>

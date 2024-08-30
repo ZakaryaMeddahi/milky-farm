@@ -1,5 +1,6 @@
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { Badge, Box, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Stack, Text, VStack } from '@chakra-ui/react';
+import UpdateBirth from './UpdateBirth';
+import DeleteBirth from './DeleteBirth';
 
 const BirthCard = ({ birth }) => (
   <Box
@@ -24,20 +25,8 @@ const BirthCard = ({ birth }) => (
       </Text>
     </VStack>
     <Stack justifyContent='center'>
-      <IconButton
-        colorScheme='green'
-        size='sm'
-        ml={2}
-        aria-label='Edit cow'
-        icon={<EditIcon />}
-      />
-      <IconButton
-        colorScheme='red'
-        size='sm'
-        ml={2}
-        aria-label='Delete cow'
-        icon={<DeleteIcon />}
-      />
+      <UpdateBirth />
+      <DeleteBirth />
     </Stack>
   </Box>
 );

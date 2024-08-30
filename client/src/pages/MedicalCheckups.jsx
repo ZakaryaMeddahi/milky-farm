@@ -6,7 +6,6 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
   TableCaption,
   TableContainer,
   Heading,
@@ -17,16 +16,12 @@ import {
   HStack,
   Flex,
   Stack,
-  IconButton,
   Select,
 } from '@chakra-ui/react';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DeleteIcon,
-  EditIcon,
-} from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import CheckupCard from '../components/MedicalCheckups/CheckupCard';
+import CheckupRow from '../components/MedicalCheckups/CheckupRow';
+import NewCheckup from '../components/MedicalCheckups/NewCheckup';
 
 // Mock data for demonstration
 const initialCheckups = [
@@ -97,9 +92,11 @@ const MedicalCheckups = () => {
 
   return (
     <Box>
-      <Heading mb={6}>Medical Checkups</Heading>
+      <Heading as='h2' size='lg' mb={6}>
+        Medical Checkups
+      </Heading>
 
-      <Stack spacing={4} mb={6} flexDir={{ base: 'column', md: 'row' }}>
+      <Stack spacing={4} mb={6} flexDir={{ base: 'column', lg: 'row' }}>
         <Input
           placeholder='Search by Cow ID'
           value={searchTerm}
@@ -111,13 +108,13 @@ const MedicalCheckups = () => {
           placeholder='Filter by Checkup Date'
           value={checkupDateFilter}
           onChange={(e) => setCheckupDateFilter(e.target.value)}
-          w='100%'
+          maxW={{ base: '100%', lg: '200px' }}
         />
         <Select
           placeholder='Filter by Illness'
           value={illnessFilter}
           onChange={(e) => setIllnessFilter(e.target.value)}
-          w='100%'
+          maxW={{ base: '100%', lg: '200px' }}
         >
           {illnesses.map((illness) => (
             <option key={illness} value={illness}>
@@ -125,6 +122,7 @@ const MedicalCheckups = () => {
             </option>
           ))}
         </Select>
+        <NewCheckup />
       </Stack>
 
       <TableContainer display={{ base: 'none', md: 'block' }}>
@@ -140,26 +138,7 @@ const MedicalCheckups = () => {
           </Thead>
           <Tbody>
             {currentCheckups.map((checkup) => (
-              <Tr key={checkup.id}>
-                <Td>{checkup.cowId}</Td>
-                <Td>{checkup.checkupDate}</Td>
-                <Td>{checkup.illness}</Td>
-                <Td>
-                  <IconButton
-                    colorScheme='green'
-                    size='sm'
-                    aria-label='Edit medical checkup'
-                    icon={<EditIcon />}
-                  />
-                  <IconButton
-                    colorScheme='red'
-                    size='sm'
-                    ml={2}
-                    aria-label='Delete medical checkup'
-                    icon={<DeleteIcon />}
-                  />
-                </Td>
-              </Tr>
+              <CheckupRow key={checkup.id} checkup={checkup} />
             ))}
           </Tbody>
         </Table>

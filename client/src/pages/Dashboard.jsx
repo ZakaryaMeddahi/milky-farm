@@ -7,7 +7,7 @@ import BirthsChart from '../components/Dashboard/BirthsChart';
 const Dashboard = () => {
   return (
     <Box>
-      <Heading mb={6}>Dashboard</Heading>
+      <Heading as='h2' size='lg' mb={6}>Dashboard</Heading>
 
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} mb={10}>
         <StatCard
