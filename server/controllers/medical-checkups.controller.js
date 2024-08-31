@@ -23,6 +23,21 @@ const createMedicalCheckup = async (req, res, next) => {
   }
 };
 
+const getAllMedicalCheckups = async (req, res, next) => {
+  try {
+    const medicalCheckups =
+      await medicalCheckupService.findAllMedicalCheckups();
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      message: 'All medical checkup records retrieved successfully',
+      medicalCheckups,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
 const getMedicalCheckups = async (req, res, next) => {
   try {
     const { cowId } = req.params;
@@ -98,6 +113,7 @@ const deleteMedicalCheckup = async (req, res, next) => {
 
 module.exports = {
   createMedicalCheckup,
+  getAllMedicalCheckups,
   getMedicalCheckups,
   getMedicalCheckup,
   updateMedicalCheckup,

@@ -15,6 +15,11 @@ const createMedicalCheckup = async (cowId, medicalCheckup) => {
   return newMedicalCheckup;
 };
 
+const findAllMedicalCheckups = async () => {
+  const medicalCheckups = await MedicalCheckup.find();
+  return medicalCheckups;
+};
+
 const findMedicalCheckups = async (cowId, filterOptions) => {
   const cow = await Cow.findById(cowId);
   if (!cow) {
@@ -62,6 +67,7 @@ const deleteMedicalCheckup = async (id, cowId) => {
 
 module.exports = {
   createMedicalCheckup,
+  findAllMedicalCheckups,
   findMedicalCheckups,
   findMedicalCheckup,
   updateMedicalCheckup,
