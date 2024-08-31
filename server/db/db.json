@@ -32,14 +32,62 @@
   "milkProduction": [
     {
       "id": 1,
-      "productionDate": "12/12/2023",
-      "quantity": 50,
+      "productionDate": "2024-08-22",
+      "quantity": 100,
       "insertedBy": 1
     },
     {
       "id": 2,
-      "productionDate": "21/02/2024",
-      "quantity": 30,
+      "productionDate": "2024-08-23",
+      "quantity": 200,
+      "insertedBy": 1
+    },
+    {
+      "id": 3,
+      "productionDate": "2024-08-24",
+      "quantity": 300,
+      "insertedBy": 1
+    },
+    {
+      "id": 4,
+      "productionDate": "2024-08-25",
+      "quantity": 200,
+      "insertedBy": 1
+    },
+    {
+      "id": 5,
+      "productionDate": "2024-08-26",
+      "quantity": 150,
+      "insertedBy": 1
+    },
+    {
+      "id": 6,
+      "productionDate": "2024-08-27",
+      "quantity": 250,
+      "insertedBy": 1
+    },
+    {
+      "id": 7,
+      "productionDate": "2024-08-28",
+      "quantity": 300,
+      "insertedBy": 1
+    },
+    {
+      "id": 8,
+      "productionDate": "2024-08-29",
+      "quantity": 200,
+      "insertedBy": 1
+    },
+    {
+      "id": 9,
+      "productionDate": "2024-08-30",
+      "quantity": 150,
+      "insertedBy": 1
+    },
+    {
+      "id": 10,
+      "productionDate": "2024-08-31",
+      "quantity": 250,
       "insertedBy": 1
     }
   ],
@@ -62,14 +110,104 @@
   "births": [
     {
       "id": 1,
-      "birthDate": "12/06/2023",
+      "birthDate": "2024-08-22",
       "motherCowId": 1,
       "insertedBy": 1
     },
     {
       "id": 2,
-      "birthDate": "21/02/2024",
+      "birthDate": "2024-08-22",
       "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 3,
+      "birthDate": "2024-08-22",
+      "motherCowId": 1,
+      "insertedBy": 1
+    },
+    {
+      "id": 4,
+      "birthDate": "2024-08-23",
+      "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 5,
+      "birthDate": "2024-08-24",
+      "motherCowId": 1,
+      "insertedBy": 1
+    },
+    {
+      "id": 6,
+      "birthDate": "2024-08-25",
+      "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 7,
+      "birthDate": "2024-08-25",
+      "motherCowId": 1,
+      "insertedBy": 1
+    },
+    {
+      "id": 8,
+      "birthDate": "2024-08-26",
+      "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 9,
+      "birthDate": "2024-08-26",
+      "motherCowId": 1,
+      "insertedBy": 1
+    },
+    {
+      "id": 10,
+      "birthDate": "2024-08-27",
+      "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 11,
+      "birthDate": "2024-08-28",
+      "motherCowId": 1,
+      "insertedBy": 1
+    },
+    {
+      "id": 12,
+      "birthDate": "2024-08-28",
+      "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 13,
+      "birthDate": "2024-08-29",
+      "motherCowId": 1,
+      "insertedBy": 1
+    },
+    {
+      "id": 14,
+      "birthDate": "2024-08-29",
+      "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 15,
+      "birthDate": "2024-08-30",
+      "motherCowId": 1,
+      "insertedBy": 1
+    },
+    {
+      "id": 16,
+      "birthDate": "2024-08-31",
+      "motherCowId": 2,
+      "insertedBy": 1
+    },
+    {
+      "id": 17,
+      "birthDate": "2024-08-31",
+      "motherCowId": 1,
       "insertedBy": 1
     }
   ]

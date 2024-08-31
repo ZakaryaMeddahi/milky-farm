@@ -2,6 +2,8 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class MedicalCheckup extends Model {
+  static modelName = 'medicalCheckups';
+
   constructor(checkupDate, illness, cowId) {
     super(ID_TYPE.INCREMENT);
     this.checkupDate = checkupDate;
@@ -9,44 +11,43 @@ class MedicalCheckup extends Model {
     this.cowId = cowId;
   }
 
-  static initializeModel() {
-    super.initializeModel('medicalCheckup');
-  }
-
   static async create(medicalCheckup) {
-    this.initializeModel();
     const { checkupDate, illness, cowId } = medicalCheckup;
-    const newMedicalCheckup = await super.create(checkupDate, illness, cowId);
+    const newMedicalCheckup = await super.create(
+      MedicalCheckup.modelName,
+      checkupDate,
+      illness,
+      cowId
+    );
     return newMedicalCheckup;
   }
 
   static async find(options) {
-    this.initializeModel();
-    const medicalCheckups = await super.find(options);
+    const medicalCheckups = await super.find(MedicalCheckup.modelName, options);
     return medicalCheckups;
   }
 
   static async findById(id) {
-    this.initializeModel();
-    const medicalCheckup = await super.findById(id);
+    const medicalCheckup = await super.findById(MedicalCheckup.modelName, id);
     return medicalCheckup;
   }
 
   static async findOne(options) {
-    this.initializeModel();
-    const medicalCheckup = await super.findOne(options);
+    const medicalCheckup = await super.findOne(MedicalCheckup.modelName, options);
     return medicalCheckup;
   }
 
   static async update(id, medicalCheckup) {
-    this.initializeModel();
-    const updateMedicalCheckup = await super.update(id, medicalCheckup);
+    const updateMedicalCheckup = await super.update(
+      MedicalCheckup.modelName,
+      id,
+      medicalCheckup
+    );
     return updateMedicalCheckup;
   }
 
   static async delete(id) {
-    this.initializeModel();
-    const deletedMedicalCheckup = await super.delete(id);
+    const deletedMedicalCheckup = await super.delete(MedicalCheckup.modelName, id);
     return deletedMedicalCheckup;
   }
 }

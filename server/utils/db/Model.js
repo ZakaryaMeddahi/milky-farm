@@ -6,29 +6,24 @@ const { ID_TYPE } = require('../../config/constants');
 class Model {
   // private field
   static #lastId = 0;
-  static #name = '';
 
   constructor(idType) {
     if (idType === ID_TYPE.INCREMENT) this.id = ++Model.#lastId;
     else if (idType === ID_TYPE.UUID) this.id = uuidv4();
   }
 
-  static initializeModel(modelName) {
-    Model.#name = modelName;
-  }
-
-  static async create(...args) {
+  static async create(modelName, ...args) {
     const newObject = new this(...args);
     const db = await readDB();
-    const array = db[Model.#name];
+    const array = db[modelName];
     array.push(newObject);
     await writeDB(db);
     return newObject;
   }
 
-  static async find(options) {
+  static async find(modelName, options) {
     const db = await readDB();
-    const array = db[Model.#name];
+    const array = db[modelName];
     if (!options) {
       return array;
     }
@@ -38,9 +33,9 @@ class Model {
     });
   }
 
-  static async findById(id) {
+  static async findById(modelName, id) {
     const db = await readDB();
-    const array = db[Model.#name];
+    const array = db[modelName];
     const index = array.findIndex((element) => element.id === id);
     if (index === -1) {
       return null;
@@ -48,9 +43,9 @@ class Model {
     return array[index];
   }
 
-  static async findOne(options) {
+  static async findOne(modelName, options) {
     const db = await readDB();
-    const array = db[Model.#name];
+    const array = db[modelName];
     const index = array.findIndex((element) => {
       for (const key in options) {
         if (element[key] !== options[key]) {
@@ -65,9 +60,9 @@ class Model {
     return array[index];
   }
 
-  static async update(id, object) {
+  static async update(modelName, id, object) {
     const db = await readDB();
-    const array = db[Model.#name];
+    const array = db[modelName];
     const index = array.findIndex((element) => element.id === id);
     if (index === -1) {
       return null;
@@ -77,9 +72,9 @@ class Model {
     return array[index];
   }
 
-  static async delete(id) {
+  static async delete(modelName, id) {
     const db = await readDB();
-    const array = db[Model.#name];
+    const array = db[modelName];
     const index = array.findIndex((element) => element.id === id);
     if (index === -1) {
       return null;

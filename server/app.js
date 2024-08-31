@@ -41,10 +41,10 @@ app.use(
   `${API_VERSION}/cows`,
   authMiddleware,
   cowsRouter,
-  birthsRouter,
   medicalCheckupsRouter
 );
 app.use(`${API_VERSION}/milk-production`, authMiddleware, milkProductionRouter);
+app.use(`${API_VERSION}/births`, authMiddleware, birthsRouter);
 
 // error handler middleware
 app.use(errorHandler);

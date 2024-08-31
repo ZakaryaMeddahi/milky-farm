@@ -2,6 +2,8 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class MilkProduction extends Model {
+  static modelName = 'milkProduction';
+
   constructor(productionDate, quantity, insertedBy) {
     super(ID_TYPE.INCREMENT);
     this.productionDate = productionDate;
@@ -9,14 +11,10 @@ class MilkProduction extends Model {
     this.insertedBy = insertedBy;
   }
 
-  static initializeModel() {
-    super.initializeModel('milkProduction');
-  }
-
   static async create(milkProduction) {
-    this.initializeModel();
     const { productionDate, quantity, insertedBy } = milkProduction;
     const newMilkProduction = await super.create(
+      MilkProduction.modelName,
       productionDate,
       quantity,
       insertedBy
@@ -25,32 +23,27 @@ class MilkProduction extends Model {
   }
 
   static async find(options) {
-    this.initializeModel();
-    const milkProductions = await super.find(options);
+    const milkProductions = await super.find(MilkProduction.modelName, options);
     return milkProductions;
   }
 
   static async findById(id) {
-    this.initializeModel();
-    const milkProduction = await super.findById(id);
+    const milkProduction = await super.findById(MilkProduction.modelName, id);
     return milkProduction;
   }
 
   static async findOne(options) {
-    this.initializeModel();
-    const milkProduction = await super.findOne(options);
+    const milkProduction = await super.findOne(MilkProduction.modelName, options);
     return milkProduction;
   }
 
   static async update(id, user) {
-    this.initializeModel();
-    const updatedMilkProduction = await super.update(id, user);
+    const updatedMilkProduction = await super.update(MilkProduction.modelName, id, user);
     return updatedMilkProduction;
   }
 
   static async delete(id) {
-    this.initializeModel();
-    const deletedMilkProduction = await super.delete(id);
+    const deletedMilkProduction = await super.delete(MilkProduction.modelName, id);
     return deletedMilkProduction;
   }
 }

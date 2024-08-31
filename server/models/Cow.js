@@ -3,6 +3,8 @@ const { ID_TYPE } = require('../config/constants');
 const { BREED } = require('../utils/db/constants');
 
 class Cow extends Model {
+  static modelName = 'cows';
+
   constructor(id, entryDate, breed, insertedBy) {
     super(ID_TYPE.CUSTOM);
     this.id = id;
@@ -11,44 +13,34 @@ class Cow extends Model {
     this.insertedBy = insertedBy;
   }
 
-  static initializeModel() {
-    super.initializeModel('cows');
-  }
-
   static async create(cow) {
-    this.initializeModel();
     const { id, entryDate, breed, insertedBy } = cow;
-    const newCow = await super.create(id, entryDate, breed, insertedBy);
+    const newCow = await super.create(Cow.modelName, id, entryDate, breed, insertedBy);
     return newCow;
   }
 
   static async find(options) {
-    this.initializeModel();
-    const cows = await super.find(options);
+    const cows = await super.find(Cow.modelName, options);
     return cows;
   }
 
   static async findById(id) {
-    this.initializeModel();
-    const cow = await super.findById(id);
+    const cow = await super.findById(Cow.modelName, id);
     return cow;
   }
 
   static async findOne(options) {
-    this.initializeModel();
-    const cow = await super.findOne(options);
+    const cow = await super.findOne(Cow.modelName, options);
     return cow;
   }
 
   static async update(id, cow) {
-    this.initializeModel();
-    const updateCow = await super.update(id, cow);
+    const updateCow = await super.update(Cow.modelName, id, cow);
     return updateCow;
   }
 
   static async delete(id) {
-    this.initializeModel();
-    const deletedCow = await super.delete(id);
+    const deletedCow = await super.delete(Cow.modelName, id);
     return deletedCow;
   }
 }

@@ -2,6 +2,8 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class Birth extends Model {
+  static modelName = 'births';
+
   constructor(birthDate, motherCowId, insertedBy) {
     super(ID_TYPE.INCREMENT);
     this.birthDate = birthDate;
@@ -9,44 +11,39 @@ class Birth extends Model {
     this.insertedBy = insertedBy;
   }
 
-  static initializeModel() {
-    super.initializeModel('births');
-  }
-
   static async create(birth) {
-    this.initializeModel();
     const { birthDate, motherCowId, insertedBy } = birth;
-    const newBirth = await super.create(birthDate, motherCowId, insertedBy);
+    const newBirth = await super.create(
+      Birth.modelName,
+      birthDate,
+      motherCowId,
+      insertedBy
+    );
     return newBirth;
   }
 
   static async find(options) {
-    this.initializeModel();
-    const births = await super.find(options);
+    const births = await super.find(Birth.modelName, options);
     return births;
   }
 
   static async findById(id) {
-    this.initializeModel();
-    const birth = await super.findById(id);
+    const birth = await super.findById(Birth.modelName, id);
     return birth;
   }
 
   static async findOne(options) {
-    this.initializeModel();
-    const birth = await super.findOne(options);
+    const birth = await super.findOne(Birth.modelName, options);
     return birth;
   }
 
   static async update(id, birth) {
-    this.initializeModel();
-    const updateBirth = await super.update(id, birth);
+    const updateBirth = await super.update(Birth.modelName, id, birth);
     return updateBirth;
   }
 
   static async delete(id) {
-    this.initializeModel();
-    const deletedBirth = await super.delete(id);
+    const deletedBirth = await super.delete(Birth.modelName, id);
     return deletedBirth;
   }
 }

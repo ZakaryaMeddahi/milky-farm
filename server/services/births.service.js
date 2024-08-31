@@ -11,6 +11,11 @@ const createBirth = async (cowId, birth) => {
   return newBirth;
 };
 
+const findAllBirths = async () => {
+  const births = await Birth.find();
+  return births;
+};
+
 const findBirths = async (cowId, filterOptions) => {
   const cow = await Cow.findById(cowId);
   if (!cow) {
@@ -58,6 +63,7 @@ const deleteBirth = async (id, cowId) => {
 
 module.exports = {
   createBirth,
+  findAllBirths,
   findBirths,
   findBirth,
   updateBirth,

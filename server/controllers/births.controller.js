@@ -20,6 +20,20 @@ const createBirth = async (req, res, next) => {
   }
 };
 
+const getAllBirths = async (req, res, next) => {
+  try {
+    const births = await birthService.findAllBirths();
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      message: 'All births records retrieved successfully',
+      births,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+}
+
 const getBirths = async (req, res, next) => {
   try {
     const { cowId } = req.params;
@@ -85,6 +99,7 @@ const deleteBirth = async (req, res, next) => {
 
 module.exports = {
   createBirth,
+  getAllBirths,
   getBirths,
   getBirth,
   updateBirth,

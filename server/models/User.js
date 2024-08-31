@@ -2,6 +2,8 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class User extends Model {
+  static modelName = 'users';
+
   constructor(name, email, password, role) {
     super(ID_TYPE.INCREMENT);
     this.name = name;
@@ -10,44 +12,34 @@ class User extends Model {
     this.role = role;
   }
 
-  static initializeModel() {
-    super.initializeModel('users');
-  }
-
   static async create(user) {
-    this.initializeModel();
     const { name, email, password, role } = user;
-    const newUser = await super.create(name, email, password, role);
+    const newUser = await super.create(User.modelName, name, email, password, role);
     return newUser;
   }
 
   static async find(options) {
-    this.initializeModel();
-    const users = await super.find(options);
+    const users = await super.find(User.modelName, options);
     return users;
   }
 
   static async findById(id) {
-    this.initializeModel();
-    const user = await super.findById(id);
+    const user = await super.findById(User.modelName, id);
     return user;
   }
 
   static async findOne(options) {
-    this.initializeModel();
-    const user = await super.findOne(options);
+    const user = await super.findOne(User.modelName, options);
     return user;
   }
 
   static async update(id, user) {
-    this.initializeModel();
-    const updatedUser = await super.update(id, user);
+    const updatedUser = await super.update(User.modelName, id, user);
     return updatedUser;
   }
 
   static async delete(id) {
-    this.initializeModel();
-    const deletedUser = await super.delete(id);
+    const deletedUser = await super.delete(User.modelName, id);
     return deletedUser;
   }
 }
