@@ -18,11 +18,12 @@ import {
 } from '@chakra-ui/react';
 import useError from '../../hooks/useError';
 import axiosInstance from '../../utils/axiosInstance';
+import { ROLES } from '../../config/constants';
 
-function NewCow({ setCows }) {
-  const [id, setId] = useState(100);
-  const [entryDate, setEntryDate] = useState('');
-  const [breed, setBreed] = useState('Holstein');
+function NewUser({ setUsers }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('moderator');
   const { _, handleError } = useError();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
@@ -30,18 +31,18 @@ function NewCow({ setCows }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post('/cows', {
-        id,
-        entryDate,
-        breed,
+      const response = await axiosInstance.post('/users', {
+        name,
+        email,
+        role,
       });
-      setCows((prevCows) => {
-        return [...prevCows, response.data.cow];
+      setUsers((prevUsers) => {
+        return [...prevUsers, response.data.user];
       });
       onClose();
     } catch (error) {
       console.error(error);
-      handleError(error, 'Unable to create cow record.');
+      handleError(error, 'Unable to create user record.');
     }
   };
 
@@ -53,7 +54,7 @@ function NewCow({ setCows }) {
         colorScheme='blue'
         onClick={onOpen}
       >
-        New cow
+        New User
       </Button>
       <Drawer
         isOpen={isOpen}
@@ -65,40 +66,42 @@ function NewCow({ setCows }) {
         <form onSubmit={handleSubmit}>
           <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader borderBottomWidth='1px'>New cow</DrawerHeader>
+            <DrawerHeader borderBottomWidth='1px'>New User</DrawerHeader>
             <DrawerBody>
               <Stack spacing='24px'>
                 <FormControl>
-                  <FormLabel htmlFor='id'>ID</FormLabel>
+                  <FormLabel htmlFor='name'>Name</FormLabel>
                   <Input
                     ref={firstField}
-                    id='id'
-                    placeholder='Enter cow id'
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    id='name'
+                    placeholder='Enter user name'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor='entry-date'>Entry Date</FormLabel>
+                  <FormLabel htmlFor='email'>Email</FormLabel>
                   <Input
-                    type='date'
-                    id='entry-date'
-                    placeholder='Enter cow entry date'
-                    value={entryDate}
-                    onChange={(e) => setEntryDate(e.target.value)}
+                    id='email'
+                    placeholder='Enter user email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor='breed'>Select breed</FormLabel>
+                  <FormLabel htmlFor='role'>Select role</FormLabel>
                   <Select
-                    id='breed'
-                    value={breed}
-                    onChange={(e) => setBreed(e.target.value)}
+                    id='role'
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
                   >
-                    <option value='Holstein'>Holstein</option>
-                    <option value='Montebiliarde'>Montebiliarde</option>
+                    {ROLES.map((role) => (
+                      <option key={role.id} value={role.name}>
+                        {role.name}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
               </Stack>
@@ -124,4 +127,4 @@ function NewCow({ setCows }) {
   );
 }
 
-export default NewCow;
+export default NewUser;

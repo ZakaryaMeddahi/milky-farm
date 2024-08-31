@@ -1,7 +1,8 @@
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { Badge, Box, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Stack, Text, VStack } from '@chakra-ui/react';
+import UpdateCheckup from './UpdateCheckup';
+import DeleteCheckup from './DeleteCheckup';
 
-const CheckupCard = ({ checkup }) => (
+const CheckupCard = ({ checkup, setMedicalCheckups }) => (
   <Box
     display='flex'
     justifyContent='space-between'
@@ -23,17 +24,15 @@ const CheckupCard = ({ checkup }) => (
       </Text>
     </VStack>
     <Stack justifyContent='center'>
-      <IconButton
-        colorScheme='green'
-        size='sm'
-        aria-label='Edit medical checkup'
-        icon={<EditIcon />}
+      <UpdateCheckup
+        id={checkup.id}
+        cowId={checkup.cowId}
+        setMedicalCheckups={setMedicalCheckups}
       />
-      <IconButton
-        colorScheme='red'
-        size='sm'
-        aria-label='Delete medical checkup'
-        icon={<DeleteIcon />}
+      <DeleteCheckup
+        id={checkup.id}
+        cowId={checkup.cowId}
+        setMedicalCheckups={setMedicalCheckups}
       />
     </Stack>
   </Box>

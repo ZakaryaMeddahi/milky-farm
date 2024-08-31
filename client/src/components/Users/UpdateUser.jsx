@@ -19,44 +19,44 @@ import {
 } from '@chakra-ui/react';
 import axiosInstance from '../../utils/axiosInstance';
 import useError from '../../hooks/useError';
+import { ROLES } from '../../config/constants';
 
-function UpdateCow({ id, setCows }) {
+function UpdateUser({ id, setUsers }) {
   const { _, handleError } = useError();
-  const [cow, setCow] = useState({});
+  const [user, setUser] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.put(`/cows/${id}`, cow);
-      setCow(response.data.cow);
-      setCows((prevCows) => {
-        const index = prevCows.findIndex((c) => c.id === id);
-        prevCows[index] = response.data.cow;
-        return [...prevCows]; // update the reference
+      const response = await axiosInstance.put(`/users/${id}`, user);
+      setUser(response.data.user);
+      setUsers((prevUsers) => {
+        const index = prevUsers.findIndex((c) => c.id === id);
+        prevUsers[index] = response.data.user;
+        return [...prevUsers]; // update the reference
       });
       onClose();
     } catch (error) {
       console.error(error);
-      handleError(error, 'Unable to update cow record.');
+      handleError(error, 'Unable to update user record.');
     }
   };
 
   useEffect(() => {
-    const fetchCow = async () => {
+    const fetchUser = async () => {
       try {
-        const response = await axiosInstance.get(`/cows/${id}`);
-        const { cow } = response.data;
-        const { births: _, medicalCheckups: __, ...cowWithoutPopulate } = cow;
-        setCow(cowWithoutPopulate);
+        const response = await axiosInstance.get(`/users/${id}`);
+        const { user } = response.data;
+        setUser(user);
       } catch (error) {
         console.error(error);
-        handleError(error, 'Unable to fetch cow record.');
+        handleError(error, 'Unable to fetch user record.');
       }
     };
 
     if (id) {
-      fetchCow();
+      fetchUser();
     }
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -66,7 +66,7 @@ function UpdateCow({ id, setCows }) {
         onClick={onOpen}
         colorScheme='green'
         size='sm'
-        aria-label='Edit cow'
+        aria-label='Edit user'
         icon={<EditIcon />}
       />
       <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
@@ -74,42 +74,43 @@ function UpdateCow({ id, setCows }) {
         <form onSubmit={handleSubmit}>
           <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader borderBottomWidth='1px'>Update cow</DrawerHeader>
+            <DrawerHeader borderBottomWidth='1px'>Update user</DrawerHeader>
             <DrawerBody>
               <Stack spacing='24px'>
                 <FormControl>
-                  <FormLabel htmlFor='id'>ID</FormLabel>
+                  <FormLabel htmlFor='name'>Name</FormLabel>
                   <Input
-                    id='id'
-                    placeholder='Enter cow id'
-                    value={cow?.id}
-                    onChange={(e) => setCow({ ...cow, id: e.target.value })}
-                    disabled
+                    id='name'
+                    placeholder='Enter user name'
+                    value={user?.name}
+                    onChange={(e) => setUser({ ...user, name: e.target.value })}
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor='entry-date'>Entry Date</FormLabel>
+                  <FormLabel htmlFor='email'>Email</FormLabel>
                   <Input
-                    type='date'
-                    id='entry-date'
-                    placeholder='Enter cow entry date'
-                    value={cow?.entryDate}
+                    id='email'
+                    placeholder='Enter email'
+                    value={user?.email}
                     onChange={(e) =>
-                      setCow({ ...cow, entryDate: e.target.value })
+                      setUser({ ...user, email: e.target.value })
                     }
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor='breed'>Select breed</FormLabel>
+                  <FormLabel htmlFor='role'>Select role</FormLabel>
                   <Select
-                    id='breed'
-                    value={cow?.breed}
-                    onChange={(e) => setCow({ ...cow, breed: e.target.value })}
+                    id='role'
+                    value={user?.role}
+                    onChange={(e) => setUser({ ...user, role: e.target.value })}
                   >
-                    <option value='Holstein'>Holstein</option>
-                    <option value='Montebiliarde'>Montebiliarde</option>
+                    {ROLES.map((role) => (
+                      <option key={role.id} value={role.name}>
+                        {role.name}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
               </Stack>
@@ -135,4 +136,4 @@ function UpdateCow({ id, setCows }) {
   );
 }
 
-export default UpdateCow;
+export default UpdateUser;

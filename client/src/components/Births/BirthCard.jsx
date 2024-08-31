@@ -2,7 +2,7 @@ import { Badge, Box, Stack, Text, VStack } from '@chakra-ui/react';
 import UpdateBirth from './UpdateBirth';
 import DeleteBirth from './DeleteBirth';
 
-const BirthCard = ({ birth }) => (
+const BirthCard = ({ birth, setBirths }) => (
   <Box
     display='flex'
     justifyContent='space-between'
@@ -25,8 +25,16 @@ const BirthCard = ({ birth }) => (
       </Text>
     </VStack>
     <Stack justifyContent='center'>
-      <UpdateBirth />
-      <DeleteBirth />
+      <UpdateBirth
+        id={birth.id}
+        motherCowId={birth.motherCowId}
+        setBirths={setBirths}
+      />
+      <DeleteBirth
+        id={birth.id}
+        motherCowId={birth.motherCowId}
+        setBirths={setBirths}
+      />
     </Stack>
   </Box>
 );

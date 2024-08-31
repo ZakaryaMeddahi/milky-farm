@@ -4,7 +4,7 @@ import { Badge, Box, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
 import UpdateCow from './UpdateCow';
 import DeleteCow from './DeleteCow';
 
-const CowCard = ({ cow }) => {
+const CowCard = ({ cow, setCows }) => {
   const navigate = useNavigate();
 
   return (
@@ -28,7 +28,7 @@ const CowCard = ({ cow }) => {
           Breed: <span style={{ fontWeight: 'normal' }}>{cow.breed}</span>
         </Text>
         <Text fontWeight='bold'>
-          Births: <span style={{ fontWeight: 'normal' }}>{cow.births}</span>
+          Births: <span style={{ fontWeight: 'normal' }}>{cow.birthsCounter}</span>
         </Text>
       </VStack>
       <Stack justifyContent='center'>
@@ -39,8 +39,8 @@ const CowCard = ({ cow }) => {
           icon={<ViewIcon />}
           onClick={() => navigate(`/cow-details/${cow.id}`)}
         />
-        <UpdateCow />
-        <DeleteCow />
+        <UpdateCow id={cow.id} setCows={setCows} />
+        <DeleteCow id={cow.id} setCows={setCows} />
       </Stack>
     </Box>
   );

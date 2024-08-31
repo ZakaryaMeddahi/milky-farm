@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Table,
@@ -23,31 +23,31 @@ import CowCard from '../components/Cows/CowCard';
 import { BREEDS } from '../config/constants';
 import NewCow from '../components/Cows/NewCow';
 import CowRow from '../components/Cows/CowRow';
-
-const cowsData = [
-  { id: 1, entryDate: '2023-01-15', breed: 'Holstein', births: 2 },
-  { id: 2, entryDate: '2023-02-20', breed: 'Jersey', births: 1 },
-  { id: 3, entryDate: '2023-03-10', breed: 'Angus', births: 0 },
-  { id: 4, entryDate: '2023-04-05', breed: 'Hereford', births: 3 },
-  { id: 5, entryDate: '2023-05-12', breed: 'Simmental', births: 1 },
-  { id: 6, entryDate: '2023-05-12', breed: 'Simmental', births: 1 },
-];
+import useFetch from '../hooks/useFetch';
 
 const Cows = () => {
+  const { data } = useFetch('/cows');
+  const [cows, setCows] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [breedFilter, setBreedFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const filteredCows = cowsData.filter(
+  // Filter and search logic
+  const filteredCows = cows?.filter(
     (cow) =>
       (breedFilter === '' || cow.breed === breedFilter) &&
       (searchTerm === '' || cow.id.toString().includes(searchTerm))
   );
 
+  // Pagination logic
   const indexOfLastCow = currentPage * itemsPerPage;
   const indexOfFirstCow = indexOfLastCow - itemsPerPage;
-  const currentCows = filteredCows.slice(indexOfFirstCow, indexOfLastCow);
+  const currentCows = filteredCows?.slice(indexOfFirstCow, indexOfLastCow);
+
+  useEffect(() => {
+    setCows(data?.cows);
+  }, [data]);
 
   return (
     <Box>
@@ -74,7 +74,7 @@ const Cows = () => {
             </option>
           ))}
         </Select>
-        <NewCow />
+        <NewCow setCows={setCows} />
       </Stack>
 
       <TableContainer display={{ base: 'none', md: 'block' }}>
@@ -90,8 +90,8 @@ const Cows = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentCows.map((cow) => (
-              <CowRow key={cow.id} cow={cow} />
+            {currentCows?.map((cow) => (
+              <CowRow key={cow.id} cow={cow} setCows={setCows} />
             ))}
           </Tbody>
         </Table>
@@ -102,8 +102,8 @@ const Cows = () => {
         columns={1}
         spacing={4}
       >
-        {currentCows.map((cow) => (
-          <CowCard key={cow.id} cow={cow} />
+        {currentCows?.map((cow) => (
+          <CowCard key={cow.id} cow={cow} setCows={setCows} />
         ))}
       </SimpleGrid>
 
@@ -115,8 +115,8 @@ const Cows = () => {
       >
         <Text>
           Showing {indexOfFirstCow + 1} to{' '}
-          {Math.min(indexOfLastCow, filteredCows.length)} of{' '}
-          {filteredCows.length} cows
+          {Math.min(indexOfLastCow, filteredCows?.length)} of{' '}
+          {filteredCows?.length} cows
         </Text>
         <HStack>
           <Button
@@ -131,11 +131,11 @@ const Cows = () => {
               setCurrentPage((prev) =>
                 Math.min(
                   prev + 1,
-                  Math.ceil(filteredCows.length / itemsPerPage)
+                  Math.ceil(filteredCows?.length / itemsPerPage)
                 )
               )
             }
-            disabled={indexOfLastCow >= filteredCows.length}
+            disabled={indexOfLastCow >= filteredCows?.length}
             rightIcon={<ChevronRightIcon />}
           >
             Next

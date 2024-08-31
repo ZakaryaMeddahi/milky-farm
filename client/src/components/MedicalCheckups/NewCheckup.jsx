@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -16,12 +16,38 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react';
+import useFetch from '../../hooks/useFetch';
+import useError from '../../hooks/useError';
+import axiosInstance from '../../utils/axiosInstance';
 
-function NewCheckup() {
+function NewCheckup({ setMedicalCheckups }) {
+  const { data: cowsData } = useFetch('/cows');
+  const [checkupDate, setCheckupDate] = useState('');
+  const [illness, setIllness] = useState('');
+  const [cowId, setCowId] = useState('');
+  const { _, handleError } = useError();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
 
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post(
+        `/cows/${cowId}/medical-checkups`,
+        {
+          checkupDate,
+          illness,
+        }
+      );
+      setMedicalCheckups((prevMedicalCheckups) => {
+        return [...prevMedicalCheckups, response.data.medicalCheckup];
+      });
+      onClose();
+    } catch (error) {
+      console.error(error);
+      handleError(error, 'Unable to create medical checkup record.');
+    }
+  };
 
   return (
     <>
@@ -49,24 +75,38 @@ function NewCheckup() {
             <DrawerBody>
               <Stack spacing='24px'>
                 <FormControl>
-                  <FormLabel htmlFor='birth-date'>Checkup Date</FormLabel>
+                  <FormLabel htmlFor='checkup-date'>Checkup Date</FormLabel>
                   <Input
                     type='date'
-                    id='birth-date'
-                    placeholder='Enter cow birth date'
+                    id='checkup-date'
+                    placeholder='Enter cow checkup date'
+                    value={checkupDate}
+                    onChange={(e) => setCheckupDate(e.target.value)}
                   />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel htmlFor='illness'>Illness</FormLabel>
-                  <Input id='illness' placeholder="Enter cow's illness" />
+                  <Input
+                    id='illness'
+                    placeholder="Enter cow's illness"
+                    value={illness}
+                    onChange={(e) => setIllness(e.target.value)}
+                  />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel htmlFor='cow'>Select cow</FormLabel>
-                  <Select id='cow' defaultValue='Holstein'>
-                    <option value='Holstein'>Holstein</option>
-                    <option value='Montebiliarde'>Montebiliarde</option>
+                  <Select
+                    id='cow'
+                    value={cowId}
+                    onChange={(e) => setCowId(e.target.value)}
+                  >
+                    {cowsData?.cows.map((cow) => (
+                      <option key={cow.id} value={cow.id}>
+                        {cow.id}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
               </Stack>

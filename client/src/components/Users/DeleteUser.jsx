@@ -14,7 +14,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import axiosInstance from '../../utils/axiosInstance';
 import useError from '../../hooks/useError';
 
-function DeleteCheckup({ id, cowId, setMedicalCheckups }) {
+function DeleteUser({ id, setUsers }) {
   const [loading, setLoading] = useState(false);
   const { _, handleError } = useError();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -23,14 +23,14 @@ function DeleteCheckup({ id, cowId, setMedicalCheckups }) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      await axiosInstance.delete(`/cows/${cowId}/medical-checkups/${id}`);
-      setMedicalCheckups((prevMedicalCheckups) => {
-        return prevMedicalCheckups.filter((checkup) => checkup.id !== id);
+      await axiosInstance.delete(`/users/${id}`);
+      setUsers((prevUsers) => {
+        return prevUsers.filter((user) => user.id !== id);
       });
       onClose();
     } catch (error) {
       console.error(error);
-      handleError(error, 'Unable to delete checkup record.');
+      handleError(error, 'Unable to delete user record.');
     } finally {
       setLoading(false);
     }
@@ -42,7 +42,7 @@ function DeleteCheckup({ id, cowId, setMedicalCheckups }) {
         onClick={onOpen}
         colorScheme='red'
         size='sm'
-        aria-label='Delete medical checkup'
+        aria-label='Delete user'
         icon={<DeleteIcon />}
       />
 
@@ -56,7 +56,7 @@ function DeleteCheckup({ id, cowId, setMedicalCheckups }) {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Delete Checkup Record
+              Delete User Record
             </AlertDialogHeader>
 
             <AlertDialogBody>
@@ -69,7 +69,7 @@ function DeleteCheckup({ id, cowId, setMedicalCheckups }) {
               </Button>
               <Button
                 isLoading={loading}
-                loadingText='Deleting'
+                loadingText='deleting'
                 colorScheme='red'
                 onClick={handleSubmit}
                 ml={3}
@@ -84,4 +84,4 @@ function DeleteCheckup({ id, cowId, setMedicalCheckups }) {
   );
 }
 
-export default DeleteCheckup;
+export default DeleteUser;

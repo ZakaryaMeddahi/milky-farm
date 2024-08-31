@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Table,
@@ -21,57 +21,32 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import MilkProdCard from '../components/MilkProduction/MilkProdCard';
 import ProdRow from '../components/MilkProduction/ProdRow';
 import NewProd from '../components/MilkProduction/NewProd';
-
-// Mock data for demonstration
-const initialMilkProds = [
-  {
-    id: 1,
-    productionDate: '2023-05-15',
-    quantity: 30,
-  },
-  {
-    id: 2,
-    productionDate: '2023-06-20',
-    quantity: 30,
-  },
-  {
-    id: 3,
-    productionDate: '2023-07-10',
-    quantity: 30,
-  },
-  {
-    id: 4,
-    productionDate: '2023-08-05',
-    quantity: 50,
-  },
-  {
-    id: 5,
-    productionDate: '2023-08-05',
-    quantity: 50,
-  },
-  {
-    id: 6,
-    productionDate: '2023-08-05',
-    quantity: 50,
-  },
-];
+import useFetch from '../hooks/useFetch';
 
 const MilkProduction = () => {
+  const { data } = useFetch('/milk-production');
+  const [milkProds, setMilkProds] = useState();
   const [prodDateFilter, setProdDateFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const filteredMilkProds = initialMilkProds.filter(
+  // Filter and search logic
+  const filteredMilkProds = milkProds?.filter(
     (milkProd) =>
       prodDateFilter === '' || milkProd.productionDate === prodDateFilter
   );
 
+  // Pagination logic
   const indexOfLastMilkProd = currentPage * itemsPerPage;
   const indexOfFirstMilkProd = indexOfLastMilkProd - itemsPerPage;
-  const currentMilkProds = filteredMilkProds.slice(
+  const currentMilkProds = filteredMilkProds?.slice(
     indexOfFirstMilkProd,
     indexOfLastMilkProd
   );
+
+  useEffect(() => {
+    setMilkProds(data?.milkProductions);
+  }, [data]);
 
   return (
     <Box>
@@ -87,7 +62,7 @@ const MilkProduction = () => {
           onChange={(e) => setProdDateFilter(e.target.value)}
           w='100%'
         />
-        <NewProd />
+        <NewProd setMilkProds={setMilkProds} />
       </Stack>
 
       <TableContainer display={{ base: 'none', md: 'block' }}>
@@ -101,8 +76,12 @@ const MilkProduction = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentMilkProds.map((milkProd) => (
-              <ProdRow key={milkProd.id} milkProd={milkProd} />
+            {currentMilkProds?.map((milkProd) => (
+              <ProdRow
+                key={milkProd.id}
+                milkProd={milkProd}
+                setMilkProds={setMilkProds}
+              />
             ))}
           </Tbody>
         </Table>
@@ -113,8 +92,12 @@ const MilkProduction = () => {
         columns={1}
         spacing={4}
       >
-        {currentMilkProds.map((milkProd) => (
-          <MilkProdCard key={milkProd.id} milkProd={milkProd} />
+        {currentMilkProds?.map((milkProd) => (
+          <MilkProdCard
+            key={milkProd.id}
+            milkProd={milkProd}
+            setMilkProds={setMilkProds}
+          />
         ))}
       </SimpleGrid>
 
@@ -126,8 +109,8 @@ const MilkProduction = () => {
       >
         <Text>
           Showing {indexOfFirstMilkProd + 1} to{' '}
-          {Math.min(indexOfLastMilkProd, filteredMilkProds.length)} of{' '}
-          {filteredMilkProds.length} Production
+          {Math.min(indexOfLastMilkProd, filteredMilkProds?.length)} of{' '}
+          {filteredMilkProds?.length} Production
         </Text>
         <HStack>
           <Button
@@ -142,11 +125,11 @@ const MilkProduction = () => {
               setCurrentPage((prev) =>
                 Math.min(
                   prev + 1,
-                  Math.ceil(filteredMilkProds.length / itemsPerPage)
+                  Math.ceil(filteredMilkProds?.length / itemsPerPage)
                 )
               )
             }
-            disabled={indexOfLastMilkProd >= filteredMilkProds.length}
+            disabled={indexOfLastMilkProd >= filteredMilkProds?.length}
             rightIcon={<ChevronRightIcon />}
           >
             Next

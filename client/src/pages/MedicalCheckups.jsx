@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Table,
@@ -22,48 +22,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import CheckupCard from '../components/MedicalCheckups/CheckupCard';
 import CheckupRow from '../components/MedicalCheckups/CheckupRow';
 import NewCheckup from '../components/MedicalCheckups/NewCheckup';
-
-// Mock data for demonstration
-const initialCheckups = [
-  {
-    id: 1,
-    checkupDate: '2023-05-15',
-    illness: 'cough',
-    cowId: 1,
-  },
-  {
-    id: 2,
-    checkupDate: '2023-06-20',
-    illness: 'Respiratory infection',
-    cowId: 2,
-  },
-  {
-    id: 3,
-    checkupDate: '2023-07-10',
-    illness: 'Respiratory infection',
-    cowId: 2,
-  },
-  {
-    id: 4,
-    checkupDate: '2023-08-05',
-    illness: 'cough',
-    cowId: 2,
-  },
-  {
-    id: 5,
-    checkupDate: '2023-08-05',
-    illness: 'cough',
-    cowId: 2,
-  },
-  {
-    id: 6,
-    checkupDate: '2023-08-05',
-    illness: 'cough',
-    cowId: 1,
-  },
-];
+import useFetch from '../hooks/useFetch';
 
 const MedicalCheckups = () => {
+  const { data } = useFetch('/medical-checkups');
+  const [medicalCheckups, setMedicalCheckups] = useState();
   const [searchTerm, setSearchTerm] = useState('');
   const [checkupDateFilter, setCheckupDateFilter] = useState('');
   const [illnessFilter, setIllnessFilter] = useState('');
@@ -71,24 +34,28 @@ const MedicalCheckups = () => {
   const itemsPerPage = 5;
 
   // Filter and search logic
-  const filteredCheckups = initialCheckups.filter(
+  const filteredCheckups = medicalCheckups?.filter(
     (checkup) =>
       (checkupDateFilter === '' || checkup.checkupDate === checkupDateFilter) &&
-      (searchTerm === '' || checkup.cowId.toString().includes(searchTerm))
+      (searchTerm === '' || checkup.cowId.toString().includes(searchTerm)) &&
+      (illnessFilter === '' || checkup.illness === illnessFilter)
   );
 
   // Pagination logic
   const indexOfLastCheckup = currentPage * itemsPerPage;
   const indexOfFirstCheckup = indexOfLastCheckup - itemsPerPage;
-  console.log(indexOfFirstCheckup, indexOfLastCheckup);
-  const currentCheckups = filteredCheckups.slice(
+  const currentCheckups = filteredCheckups?.slice(
     indexOfFirstCheckup,
     indexOfLastCheckup
   );
 
   const illnesses = [
-    ...new Set(initialCheckups.map((checkup) => checkup.illness)),
+    ...new Set(data?.medicalCheckups.map((checkup) => checkup.illness)),
   ];
+
+  useEffect(() => {
+    setMedicalCheckups(data?.medicalCheckups);
+  }, [data]);
 
   return (
     <Box>
@@ -122,7 +89,7 @@ const MedicalCheckups = () => {
             </option>
           ))}
         </Select>
-        <NewCheckup />
+        <NewCheckup setMedicalCheckups={setMedicalCheckups} />
       </Stack>
 
       <TableContainer display={{ base: 'none', md: 'block' }}>
@@ -137,8 +104,12 @@ const MedicalCheckups = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentCheckups.map((checkup) => (
-              <CheckupRow key={checkup.id} checkup={checkup} />
+            {currentCheckups?.map((checkup) => (
+              <CheckupRow
+                key={checkup.id}
+                checkup={checkup}
+                setMedicalCheckups={setMedicalCheckups}
+              />
             ))}
           </Tbody>
         </Table>
@@ -149,8 +120,12 @@ const MedicalCheckups = () => {
         columns={1}
         spacing={4}
       >
-        {currentCheckups.map((checkup) => (
-          <CheckupCard key={checkup.id} checkup={checkup} />
+        {currentCheckups?.map((checkup) => (
+          <CheckupCard
+            key={checkup.id}
+            checkup={checkup}
+            setMedicalCheckups={setMedicalCheckups}
+          />
         ))}
       </SimpleGrid>
 
@@ -162,8 +137,8 @@ const MedicalCheckups = () => {
       >
         <Text>
           Showing {indexOfFirstCheckup + 1} to{' '}
-          {Math.min(indexOfLastCheckup, filteredCheckups.length)} of{' '}
-          {filteredCheckups.length} Checkups
+          {Math.min(indexOfLastCheckup, filteredCheckups?.length)} of{' '}
+          {filteredCheckups?.length} Checkups
         </Text>
         <HStack>
           <Button
@@ -178,11 +153,11 @@ const MedicalCheckups = () => {
               setCurrentPage((prev) =>
                 Math.min(
                   prev + 1,
-                  Math.ceil(filteredCheckups.length / itemsPerPage)
+                  Math.ceil(filteredCheckups?.length / itemsPerPage)
                 )
               )
             }
-            disabled={indexOfLastCheckup >= filteredCheckups.length}
+            disabled={indexOfLastCheckup >= filteredCheckups?.length}
             rightIcon={<ChevronRightIcon />}
           >
             Next

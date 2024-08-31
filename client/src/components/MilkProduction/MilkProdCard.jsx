@@ -2,7 +2,7 @@ import { Box, Stack, Text, VStack } from '@chakra-ui/react';
 import UpdateProd from './UpdateProd';
 import DeleteProd from './DeleteProd';
 
-const MilkProdCard = ({ milkProd }) => (
+const MilkProdCard = ({ milkProd, setMilkProds }) => (
   <Box
     display='flex'
     justifyContent='space-between'
@@ -18,12 +18,12 @@ const MilkProdCard = ({ milkProd }) => (
       </Text>
       <Text fontWeight='bold'>
         Quantity:{' '}
-        <span style={{ fontWeight: 'normal' }}>{milkProd.quantity}</span>
+        <span style={{ fontWeight: 'normal' }}>{milkProd.quantity} L</span>
       </Text>
     </VStack>
     <Stack justifyContent='center'>
-      <UpdateProd />
-      <DeleteProd />
+    <UpdateProd id={milkProd.id} setMilkProds={setMilkProds} />
+    <DeleteProd id={milkProd.id} setMilkProds={setMilkProds} />
     </Stack>
   </Box>
 );

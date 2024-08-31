@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,12 +11,30 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
+import axiosInstance from '../../utils/axiosInstance';
+import useError from '../../hooks/useError';
 
-function DeleteCow() {
+function DeleteCow({ id, setCows }) {
+  const [loading, setLoading] = useState(false);
+  const { _, handleError } = useError();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const handleSubmit = async () => {}
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      await axiosInstance.delete(`/cows/${id}`);
+      setCows((prevCows) => {
+        return prevCows.filter((cow) => cow.id !== id);
+      });
+      onClose();
+    } catch (error) {
+      console.error(error);
+      handleError(error, 'Unable to delete cow record.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -49,7 +67,13 @@ function DeleteCow() {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme='red' onClick={handleSubmit} ml={3}>
+              <Button
+                isLoading={loading}
+                loadingText='deleting'
+                colorScheme='red'
+                onClick={handleSubmit}
+                ml={3}
+              >
                 Delete
               </Button>
             </AlertDialogFooter>

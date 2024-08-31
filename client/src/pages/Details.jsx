@@ -15,46 +15,48 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from '@chakra-ui/react';
-
-// Mock data for demonstration
-const cowData = {
-  id: 1,
-  entryDate: '2022-03-15',
-  breed: 'Holstein',
-  births: [
-    { id: 1, date: '2023-04-10' },
-    { id: 2, date: '2024-05-20' },
-  ],
-  medicalCheckups: [
-    { id: 1, date: '2023-01-15', illness: 'Routine checkup' },
-    { id: 2, date: '2023-06-20', illness: 'Mild fever' },
-    { id: 3, date: '2024-02-10', illness: 'Vaccination' },
-  ],
-};
+import useFetch from '../hooks/useFetch';
+import { useParams } from 'react-router-dom';
 
 const Details = () => {
+  const { id } = useParams();
+  const { data } = useFetch(`/cows/${id}`);
+
+  console.log(id);
+
   return (
-    <Box margin='auto' borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} maxW="lg">
-      <VStack align="stretch" spacing={4}>
-        <Heading size="lg">{`Cow ${cowData.id}`}</Heading>
-        
+    <Box
+      margin='auto'
+      borderWidth='1px'
+      borderRadius='lg'
+      overflow='hidden'
+      p={4}
+      maxW='lg'
+    >
+      <VStack align='stretch' spacing={4}>
+        <Heading size='lg'>{`Cow ${data?.cow.id}`}</Heading>
+
         <Box>
-          <Text><strong>Entry Date:</strong> {cowData.entryDate}</Text>
-          <Text><strong>Breed:</strong> {cowData.breed}</Text>
+          <Text>
+            <strong>Entry Date:</strong> {data?.cow.entryDate}
+          </Text>
+          <Text>
+            <strong>Breed:</strong> {data?.cow.breed}
+          </Text>
         </Box>
 
         <Accordion defaultIndex={[0, 1]} allowMultiple>
           <AccordionItem>
             <h2>
               <AccordionButton>
-                <Box flex="1" textAlign="left">
+                <Box flex='1' textAlign='left'>
                   <strong>Births</strong>
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              <Table variant="simple" size="sm">
+              <Table variant='simple' size='sm'>
                 <Thead>
                   <Tr>
                     <Th>ID</Th>
@@ -62,10 +64,10 @@ const Details = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {cowData.births.map((birth) => (
+                  {data?.cow.births.map((birth) => (
                     <Tr key={birth.id}>
                       <Td>{birth.id}</Td>
-                      <Td>{birth.date}</Td>
+                      <Td>{birth.birthDate}</Td>
                     </Tr>
                   ))}
                 </Tbody>
@@ -76,14 +78,14 @@ const Details = () => {
           <AccordionItem>
             <h2>
               <AccordionButton>
-                <Box flex="1" textAlign="left">
+                <Box flex='1' textAlign='left'>
                   <strong>Medical Checkups</strong>
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              <Table variant="simple" size="sm">
+              <Table variant='simple' size='sm'>
                 <Thead>
                   <Tr>
                     <Th>Date</Th>
@@ -91,9 +93,9 @@ const Details = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {cowData.medicalCheckups.map((checkup) => (
+                  {data?.cow.medicalCheckups.map((checkup) => (
                     <Tr key={checkup.id}>
-                      <Td>{checkup.date}</Td>
+                      <Td>{checkup.checkupDate}</Td>
                       <Td>{checkup.illness}</Td>
                     </Tr>
                   ))}
