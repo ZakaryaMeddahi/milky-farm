@@ -1,5 +1,15 @@
 const User = require('../models/User');
 const { NotFoundError } = require('../utils/errors');
+const { generatePassword } = require('../helpers/password.helper');
+const { hashPassword } = require('../helpers/bcrypt.helper');
+
+const createUser = async (data) => {
+  const password = generatePassword();
+  const hashedPassword = await hashPassword(password);
+  const user = await User.create({ ...data, password: hashedPassword });
+  delete user.password;
+  return user;
+};
 
 const findUsers = async (filterOptions) => {
   const users = await User.find();
@@ -37,6 +47,7 @@ const deleteUser = async (id) => {
 };
 
 module.exports = {
+  createUser,
   findUsers,
   findUser,
   updateUser,

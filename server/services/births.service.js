@@ -8,6 +8,7 @@ const createBirth = async (cowId, birth) => {
     throw new NotFoundError('There is no cow with this id');
   }
   const newBirth = await Birth.create({ ...birth, motherCowId: cowId });
+  await Cow.update(cowId, { ...cow, birthsCounter: cow.birthsCounter + 1 });
   return newBirth;
 };
 
@@ -58,6 +59,7 @@ const deleteBirth = async (id, cowId) => {
   if (!deletedBirth) {
     throw new NotFoundError('There is no birth with this id');
   }
+  await Cow.update(cowId, { ...cow, birthsCounter: cow.birthsCounter - 1 });
   return deletedBirth;
 };
 

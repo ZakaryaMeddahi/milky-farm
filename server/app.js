@@ -37,14 +37,11 @@ app.use(`/docs`, swaggerUI.serve, swaggerUI.setup(specs));
 // routes
 app.use(`${API_VERSION}/auth`, authRouter);
 app.use(`${API_VERSION}/users`, authMiddleware, usersRouter);
-app.use(
-  `${API_VERSION}/cows`,
-  authMiddleware,
-  cowsRouter,
-  medicalCheckupsRouter
-);
-app.use(`${API_VERSION}/milk-production`, authMiddleware, milkProductionRouter);
+app.use(`${API_VERSION}/cows`, authMiddleware, cowsRouter);
 app.use(`${API_VERSION}/births`, authMiddleware, birthsRouter);
+app.use(`${API_VERSION}/medical-checkups`, authMiddleware, medicalCheckupsRouter);
+app.use(`${API_VERSION}/milk-production`, authMiddleware, milkProductionRouter);
+
 
 // error handler middleware
 app.use(errorHandler);

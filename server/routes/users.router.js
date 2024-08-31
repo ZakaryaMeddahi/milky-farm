@@ -4,6 +4,7 @@ const {
   getUser,
   updateUser,
   deleteUser,
+  createUser,
 } = require('../controllers/users.controller');
 
 /**
@@ -70,7 +71,7 @@ const {
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  */
-router.route('/').get(getUsers);
+router.route('/').get(getUsers).post(createUser);
 
 /**
  * @swagger

@@ -1,6 +1,20 @@
 const { StatusCodes } = require('http-status-codes');
 const userService = require('../services/users.service');
 
+const createUser = async (req, res, next) => {
+  try {
+    const user = await userService.createUser(req.body);
+    res.status(StatusCodes.CREATED).json({
+      status: 'success',
+      message: 'User created successfully',
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+}
+
 const getUsers = async (req, res, next) => {
   try {
     const users = await userService.findUsers();
@@ -60,6 +74,7 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
+  createUser,
   getUsers,
   getUser,
   updateUser,

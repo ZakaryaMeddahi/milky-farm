@@ -10,12 +10,19 @@ class Cow extends Model {
     this.id = id;
     this.entryDate = entryDate;
     this.breed = breed;
+    this.birthsCounter = 0;
     this.insertedBy = insertedBy;
   }
 
   static async create(cow) {
     const { id, entryDate, breed, insertedBy } = cow;
-    const newCow = await super.create(Cow.modelName, id, entryDate, breed, insertedBy);
+    const newCow = await super.create(
+      Cow.modelName,
+      id,
+      entryDate,
+      breed,
+      insertedBy
+    );
     return newCow;
   }
 

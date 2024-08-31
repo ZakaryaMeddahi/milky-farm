@@ -8,7 +8,7 @@
       "role": "admin"
     },
     {
-      "id": 1,
+      "id": 2,
       "name": "fake name",
       "email": "fake@example.com",
       "password": "$2a$10$axUZOEJlakb9fwWQxkxtlONYS4YhU2v2kkg.fhDJkE6oyduzwfuZa",
@@ -18,14 +18,16 @@
   "cows": [
     {
       "id": 1,
-      "entryDate": "12/12/2023",
-      "breed": "Holstein",
+      "entryDate": "2023-12-12",
+      "breed": "Montebiliarde",
+      "birthsCounter": 9,
       "insertedBy": 1
     },
     {
       "id": 2,
-      "entryDate": "23/08/2024",
+      "entryDate": "2024-08-23",
       "breed": "Holstein",
+      "birthsCounter": 8,
       "insertedBy": 1
     }
   ],
@@ -33,7 +35,7 @@
     {
       "id": 1,
       "productionDate": "2024-08-22",
-      "quantity": 100,
+      "quantity": "100",
       "insertedBy": 1
     },
     {
@@ -91,17 +93,17 @@
       "insertedBy": 1
     }
   ],
-  "medicalCheckup": [
+  "medicalCheckups": [
     {
       "id": 1,
-      "checkupDate": "21/02/2024",
+      "checkupDate": "2024-01-21",
       "illness": "cough",
       "cowId": 1,
       "insertedBy": 1
     },
     {
       "id": 2,
-      "checkupDate": "21/02/2024",
+      "checkupDate": "2024-01-21",
       "illness": "Respiratory infection",
       "cowId": 2,
       "insertedBy": 1
