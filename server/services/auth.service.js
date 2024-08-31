@@ -1,7 +1,7 @@
 const { matchPassword, hashPassword } = require('../helpers/bcrypt.helper');
 const { createJWT } = require('../helpers/jwt.helper');
 const User = require('../models/User');
-const { UnauthorizedError, BadRequestError } = require('../utils/errors');
+const { BadRequestError } = require('../utils/errors');
 
 const registerUser = async (data) => {
   const { email } = data;
@@ -18,11 +18,11 @@ const loginUser = async (data) => {
   const { email, password } = data;
   const user = await User.findOne({ email });
 
-  if (!user) throw new UnauthorizedError('Invalid email');
+  if (!user) throw new BadRequestError('Invalid email');
 
   const validPassword = await matchPassword(password, user.password);
 
-  if (!validPassword) throw new UnauthorizedError('Invalid password');
+  if (!validPassword) throw new BadRequestError('Invalid password');
 
   const { id, name, role } = user;
   const token = createJWT({ id, name, email, role });
