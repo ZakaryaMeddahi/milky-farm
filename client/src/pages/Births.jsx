@@ -62,6 +62,8 @@ const Births = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  console.log('date: ', birthDateFilter);
+
   // Filter and search logic
   const filteredBirths = initialBirths.filter(
     (birth) =>

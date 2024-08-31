@@ -23,12 +23,15 @@ import {
   FaStethoscope,
   FaBabyCarriage,
   FaSignOutAlt,
+  FaUser,
 } from 'react-icons/fa';
-import { IoIosMenu } from "react-icons/io";
+import { IoIosMenu } from 'react-icons/io';
 import logo from '/milky-farm.png';
+import useAuth from '../hooks/useAuth';
 
 const SidebarContent = ({ onClose }) => {
   const location = useLocation();
+  const { user } = useAuth();
 
   const NavItem = ({ icon, children, to }) => (
     <Link
@@ -65,17 +68,22 @@ const SidebarContent = ({ onClose }) => {
       <NavItem to='/births' icon={FaBabyCarriage}>
         Births
       </NavItem>
+      {user?.role === 'admin' ? (
+        <NavItem to='/users' icon={FaUser}>
+          Users
+        </NavItem>
+      ) : null}
     </VStack>
   );
 };
 
-const Layout = ({ user, onLogout }) => {
+const Layout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useAuth();
 
   return (
     <Box minH='100vh'>
       <Flex>
-        {/* Sidebar for larger screens */}
         <Box
           w='250px'
           bg='gray.100'
@@ -94,9 +102,7 @@ const Layout = ({ user, onLogout }) => {
           </VStack>
         </Box>
 
-        {/* Main content area */}
         <Box flex={1}>
-          {/* Header */}
           <Flex
             bg='white'
             px={4}
@@ -116,25 +122,24 @@ const Layout = ({ user, onLogout }) => {
               />
             </Flex>
             <Flex alignItems='center'>
-              <Text mr={4}>{user.name}</Text>
-              <IconButton
-                icon={<FaSignOutAlt />}
-                colorScheme='red'
-                h='auto'
-                py={2.5}
-                onClick={onLogout}
-              />
+              <Text mr={4}>{user?.name}</Text>
+              <Link as={RouterLink} to='/logout'>
+                <IconButton
+                  icon={<FaSignOutAlt />}
+                  colorScheme='red'
+                  h='auto'
+                  py={2.5}
+                />
+              </Link>
             </Flex>
           </Flex>
 
-          {/* Page content */}
           <Box p={8}>
             <Outlet />
           </Box>
         </Box>
       </Flex>
 
-      {/* Mobile sidebar drawer */}
       <Drawer isOpen={isOpen} placement='left' onClose={onClose}>
         <DrawerOverlay>
           <DrawerContent>

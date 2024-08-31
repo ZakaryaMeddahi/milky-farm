@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Box, Flex, Heading, Select } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import {
   CartesianGrid,
   Line,
@@ -10,36 +9,37 @@ import {
   YAxis,
 } from 'recharts';
 
-const birthsData = [
-  { date: '2023-08-23', births: 2 },
-  { date: '2023-08-24', births: 1 },
-  { date: '2023-08-25', births: 3 },
-  { date: '2023-08-26', births: 0 },
-  { date: '2023-08-27', births: 2 },
-  { date: '2023-08-28', births: 1 },
-  { date: '2023-08-29', births: 2 },
-];
+const BirthsChart = ({ births }) => {
+  const birthsStats = [];
 
-const BirthsChart = () => {
-  const [birthsDuration, setBirthsDuration] = useState('7');
+  const last7DaysBirths = births?.filter((birth) => {
+    const today = new Date();
+    const last7Days = new Date(today.setDate(today.getDate() - 7));
+    return new Date(birth.birthDate) > last7Days;
+  });
+
+  last7DaysBirths?.forEach((birth) => {
+    const existingDate = birthsStats.find(
+      (stat) => stat.birthDate === birth.birthDate
+    );
+
+    if (existingDate) {
+      existingDate.births += 1;
+    } else {
+      birthsStats.push({ birthDate: birth.birthDate, births: 1 });
+    }
+  });
 
   return (
     <Box>
       <Flex justifyContent='space-between' alignItems='center' mb={4}>
         <Heading size='md'>Births</Heading>
-        <Select
-          value={birthsDuration}
-          onChange={(e) => setBirthsDuration(e.target.value)}
-          w='150px'
-        >
-          <option value='7'>Last 7 days</option>
-          <option value='30'>Last 30 days</option>
-        </Select>
+        <Text>Last 7 days</Text>
       </Flex>
       <ResponsiveContainer width='100%' height={300}>
-        <LineChart data={birthsData}>
+        <LineChart data={birthsStats}>
           <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='date' />
+          <XAxis dataKey='birthDate' />
           <YAxis />
           <Tooltip />
           <Line

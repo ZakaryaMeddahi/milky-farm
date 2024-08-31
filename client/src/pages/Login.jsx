@@ -13,23 +13,36 @@ import {
   Image,
 } from '@chakra-ui/react';
 import logo from '/milky-farm.png';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically handle the login logic
-    console.log('Login attempted with:', { email, password });
-    toast({
-      title: 'Login Attempt',
-      description: 'Login functionality not implemented yet.',
-      status: 'info',
-      duration: 3000,
-      isClosable: true,
-    });
+
+    try {
+      setIsLoading(true);
+      await login(email, password);
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: 'Login failed',
+        description:
+          typeof error.message === 'object' ? error.message[0] : error.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -77,18 +90,25 @@ const Login = () => {
               />
             </FormControl>
 
-            <Button type='submit' colorScheme='blue' width='full' mt={5}>
+            <Button
+              isLoading={isLoading}
+              loadingText='Logging in'
+              type='submit'
+              colorScheme='blue'
+              width='full'
+              mt={5}
+            >
               Log In
             </Button>
           </VStack>
         </form>
 
-        <Text textAlign='center'>
+        {/* <Text textAlign='center'>
           Forgot your password?{' '}
           <Link color='blue.500' href='#'>
             Reset it here
           </Link>
-        </Text>
+        </Text> */}
       </VStack>
     </Box>
   );
