@@ -33,7 +33,7 @@ function NewCheckup({ setMedicalCheckups }) {
     e.preventDefault();
     try {
       const response = await axiosInstance.post(
-        `/cows/${cowId}/medical-checkups`,
+        `/cows/${cowId || cowsData?.cows[0].id}/medical-checkups`,
         {
           checkupDate,
           illness,
