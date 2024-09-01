@@ -287,7 +287,7 @@ router.route('/:id').get(getCow).put(updateCow).delete(deleteCow);
  * @swagger
  * /cows/{cowId}/births:
  *   get:
- *     summary: Get all birth records
+ *     summary: Get birth records related to a single cow
  *     description: Admins and moderators can retrieve all birth records.
  *     tags: [Births]
  *     security:
@@ -566,9 +566,9 @@ router
 
 /**
  * @swagger
- * /cows/{cowId}/medical-checkup:
+ * /cows/{cowId}/medical-checkups:
  *   get:
- *     summary: Get all medical checkup records
+ *     summary: Get medical checkup records related to a single cow
  *     description: Admins and moderators can retrieve all medical checkup records.
  *     tags: [MedicalCheckup]
  *     security:
@@ -668,7 +668,7 @@ router
 
 /**
  * @swagger
- * /cows/{cowId}/medical-checkup/{id}:
+ * /cows/{cowId}/medical-checkups/{id}:
  *   get:
  *     summary: Get a medical checkup record
  *     description: Admins and moderators can fetch a medical checkup record by id.
