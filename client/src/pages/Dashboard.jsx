@@ -17,7 +17,7 @@ const Dashboard = () => {
   });
 
   last7DaysProd?.forEach((prod) => {
-    productionSum += prod.quantity;
+    productionSum += parseInt(prod.quantity);
   });
 
   const last30DaysBirths = birthsData?.births.filter((birth) => {
