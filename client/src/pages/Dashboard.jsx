@@ -10,8 +10,6 @@ const Dashboard = () => {
   const { data: birthsData } = useFetch('/births');
   let productionSum = 0;
 
-  console.log(milkProdData);
-
   const last7DaysProd = milkProdData?.milkProductions.filter((prod) => {
     const today = new Date();
     const last7Days = new Date(today.setDate(today.getDate() - 7));

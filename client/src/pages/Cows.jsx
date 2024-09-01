@@ -26,7 +26,7 @@ import CowRow from '../components/Cows/CowRow';
 import useFetch from '../hooks/useFetch';
 
 const Cows = () => {
-  const { data } = useFetch('/cows');
+  const { data } = useFetch('/cows', true);
   const [cows, setCows] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [breedFilter, setBreedFilter] = useState('');

@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
 
-const useFetch = (url) => {
+const cache = {};
+
+const useFetch = (url, forceUpdate = false) => {
   const [data, setData] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
+    if (!forceUpdate && cache[url]) {
+      setData(cache[url]);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await axiosInstance.get(url);
         setData(response.data);
+        cache[url] = response.data;
+        console.log(url, ' response');
       } catch (error) {
         error.message =
           typeof error.message === 'object' ? error.message[0] : error.message;
@@ -23,7 +31,7 @@ const useFetch = (url) => {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, forceUpdate]);
 
   return { data, error, loading };
 };
