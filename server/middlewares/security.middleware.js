@@ -8,14 +8,14 @@ const securityMiddleware = () => {
   const app = express();
   app.use(cors());
   app.use(helmet());
-  app.use(
-    rateLimit({
-      windowMs: WINDOW_MS,
-      max: RATE_MAX,
-      standardHeaders: 'draft-7',
-      legacyHeaders: false,
-    })
-  );
+  // app.use(
+  //   rateLimit({
+  //     windowMs: WINDOW_MS,
+  //     max: RATE_MAX,
+  //     standardHeaders: 'draft-7',
+  //     legacyHeaders: false,
+  //   })
+  // );
 
   return app;
 };
