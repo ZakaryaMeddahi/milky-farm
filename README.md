@@ -42,7 +42,7 @@ Milky Farm Management System is a comprehensive solution for managing cow farms.
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/milky-farm.git
+   git clone https://github.com/ZakaryaMeddahi/milky-farm.git
    cd milky-farm
    ```
 
