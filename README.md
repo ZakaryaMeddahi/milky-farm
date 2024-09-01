@@ -95,4 +95,4 @@ If you encounter any issues or have questions, please file an issue on the GitHu
 
 ---
 
-Happy farming with Milky Farm Management System! 🥛
+Happy farming with Milky Farm! 🥛
