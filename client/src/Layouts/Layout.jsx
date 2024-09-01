@@ -18,13 +18,13 @@ import {
 } from '@chakra-ui/react';
 import {
   FaHome,
-  FaCoffee,
-  FaBootstrap,
   FaStethoscope,
   FaBabyCarriage,
   FaSignOutAlt,
   FaUser,
 } from 'react-icons/fa';
+import { PiCowFill } from "react-icons/pi";
+import { LuMilk } from "react-icons/lu";
 import { IoIosMenu } from 'react-icons/io';
 import logo from '/milky-farm.png';
 import useAuth from '../hooks/useAuth';
@@ -56,10 +56,10 @@ const SidebarContent = ({ onClose }) => {
       <NavItem to='/' icon={FaHome}>
         Dashboard
       </NavItem>
-      <NavItem to='/cows' icon={FaCoffee}>
+      <NavItem to='/cows' icon={PiCowFill}>
         Cows
       </NavItem>
-      <NavItem to='/milk-production' icon={FaBootstrap}>
+      <NavItem to='/milk-production' icon={LuMilk}>
         Milk Production
       </NavItem>
       <NavItem to='/medical-checkups' icon={FaStethoscope}>
