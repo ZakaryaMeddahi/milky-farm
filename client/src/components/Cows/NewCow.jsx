@@ -1,4 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -10,6 +13,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Select,
@@ -19,17 +23,27 @@ import {
 import useError from '../../hooks/useError';
 import axiosInstance from '../../utils/axiosInstance';
 
+const formSchema = z.object({
+  id: z.string().min(1, 'ID is required'),
+  entryDate: z.string().min(10, 'Entry is required'),
+  breed: z.enum(['Holstein', 'Montebiliarde']),
+});
+
 function NewCow({ setCows }) {
-  const [id, setId] = useState(100);
-  const [entryDate, setEntryDate] = useState('');
-  const [breed, setBreed] = useState('Holstein');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+  });
   const { _, handleError } = useError();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
+      const { id, entryDate, breed } = data;
       const response = await axiosInstance.post('/cows', {
         id,
         entryDate,
@@ -62,44 +76,44 @@ function NewCow({ setCows }) {
         onClose={onClose}
       >
         <DrawerOverlay />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader borderBottomWidth='1px'>New cow</DrawerHeader>
             <DrawerBody>
               <Stack spacing='24px'>
-                <FormControl>
+                <FormControl isInvalid={errors.id}>
                   <FormLabel htmlFor='id'>ID</FormLabel>
                   <Input
                     ref={firstField}
                     id='id'
+                    type='number'
                     placeholder='Enter cow id'
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    {...register('id')}
                   />
+                  <FormErrorMessage>{errors.id?.message}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl>
+                <FormControl isInvalid={errors.entryDate}>
                   <FormLabel htmlFor='entry-date'>Entry Date</FormLabel>
                   <Input
                     type='date'
                     id='entry-date'
                     placeholder='Enter cow entry date'
-                    value={entryDate}
-                    onChange={(e) => setEntryDate(e.target.value)}
+                    {...register('entryDate')}
                   />
+                  <FormErrorMessage>
+                    {errors.entryDate?.message}
+                  </FormErrorMessage>
                 </FormControl>
 
-                <FormControl>
+                <FormControl isInvalid={errors.breed?.message}>
                   <FormLabel htmlFor='breed'>Select breed</FormLabel>
-                  <Select
-                    id='breed'
-                    value={breed}
-                    onChange={(e) => setBreed(e.target.value)}
-                  >
+                  <Select id='breed' {...register('breed')}>
                     <option value='Holstein'>Holstein</option>
                     <option value='Montebiliarde'>Montebiliarde</option>
                   </Select>
+                  <FormErrorMessage>{errors.breed?.message}</FormErrorMessage>
                 </FormControl>
               </Stack>
             </DrawerBody>

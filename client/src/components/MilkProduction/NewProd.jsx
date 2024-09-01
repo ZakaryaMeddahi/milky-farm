@@ -1,4 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -10,6 +13,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Stack,
@@ -18,16 +22,26 @@ import {
 import useError from '../../hooks/useError';
 import axiosInstance from '../../utils/axiosInstance';
 
+const formSchema = z.object({
+  productionDate: z.string().min(10, 'Production Date is required'),
+  quantity: z.string().min(1, 'Quantity is required'),
+});
+
 function NewProd({ setMilkProds }) {
-  const [productionDate, setProductionDate] = useState();
-  const [quantity, setQuantity] = useState();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+  });
   const { _, handleError } = useError();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
+      const { productionDate, quantity } = data;
       const response = await axiosInstance.post('/milk-production', {
         productionDate,
         quantity,
@@ -59,13 +73,13 @@ function NewProd({ setMilkProds }) {
         onClose={onClose}
       >
         <DrawerOverlay />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader borderBottomWidth='1px'>New Production</DrawerHeader>
             <DrawerBody>
               <Stack spacing='24px'>
-                <FormControl>
+                <FormControl isInvalid={errors.productionDate}>
                   <FormLabel htmlFor='production-date'>
                     Production Date
                   </FormLabel>
@@ -73,19 +87,23 @@ function NewProd({ setMilkProds }) {
                     type='date'
                     id='production-date'
                     placeholder='Enter production date'
-                    value={productionDate}
-                    onChange={(e) => setProductionDate(e.target.value)}
+                    {...register('productionDate')}
                   />
+                  <FormErrorMessage>
+                    {errors.productionDate?.message}
+                  </FormErrorMessage>
                 </FormControl>
 
-                <FormControl>
+                <FormControl isInvalid={errors.quantity}>
                   <FormLabel htmlFor='quantity'>Quantity</FormLabel>
                   <Input
                     id='quantity'
                     placeholder='Enter milk quantity'
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    {...register('quantity')}
                   />
+                  <FormErrorMessage>
+                    {errors.quantity?.message}
+                  </FormErrorMessage>
                 </FormControl>
               </Stack>
             </DrawerBody>

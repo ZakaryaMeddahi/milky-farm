@@ -1,4 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -10,6 +13,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Select,
@@ -20,17 +24,27 @@ import useError from '../../hooks/useError';
 import axiosInstance from '../../utils/axiosInstance';
 import { ROLES } from '../../config/constants';
 
+const formSchema = z.object({
+  name: z.string().min(3, 'Name must be at least 3 characters'),
+  email: z.string().email('Invalid email address'),
+  role: z.enum(['moderator', 'admin']),
+});
+
 function NewUser({ setUsers }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('moderator');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+  });
   const { _, handleError } = useError();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
+      const { name, email, role } = data;
       const response = await axiosInstance.post('/users', {
         name,
         email,
@@ -63,46 +77,43 @@ function NewUser({ setUsers }) {
         onClose={onClose}
       >
         <DrawerOverlay />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader borderBottomWidth='1px'>New User</DrawerHeader>
             <DrawerBody>
               <Stack spacing='24px'>
-                <FormControl>
+                <FormControl isInvalid={errors.name}>
                   <FormLabel htmlFor='name'>Name</FormLabel>
                   <Input
                     ref={firstField}
                     id='name'
                     placeholder='Enter user name'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    {...register('name')}
                   />
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl>
+                <FormControl isInvalid={errors.email}>
                   <FormLabel htmlFor='email'>Email</FormLabel>
                   <Input
                     id='email'
                     placeholder='Enter user email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register('email')}
                   />
+                  <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl>
+                <FormControl isInvalid={errors.role}>
                   <FormLabel htmlFor='role'>Select role</FormLabel>
-                  <Select
-                    id='role'
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                  >
+                  <Select id='role' {...register('role')}>
                     {ROLES.map((role) => (
                       <option key={role.id} value={role.name}>
                         {role.name}
                       </option>
                     ))}
                   </Select>
+                  <FormErrorMessage>{errors.role?.message}</FormErrorMessage>
                 </FormControl>
               </Stack>
             </DrawerBody>

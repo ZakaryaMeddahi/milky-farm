@@ -20,7 +20,6 @@ const useFetch = (url, forceUpdate = false) => {
         const response = await axiosInstance.get(url);
         setData(response.data);
         cache[url] = response.data;
-        console.log(url, ' response');
       } catch (error) {
         error.message =
           typeof error.message === 'object' ? error.message[0] : error.message;

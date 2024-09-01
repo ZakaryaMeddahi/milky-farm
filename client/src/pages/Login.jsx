@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Box,
   Button,
@@ -11,24 +14,37 @@ import {
   Link,
   useToast,
   Image,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import logo from '/milky-farm.png';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
+const formSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z
+    .string()
+    .min(5, 'Password must be at least 5 characters')
+    .max(16, 'Password must be at most 16 characters'),
+});
+
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+  });
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (data) => {
     try {
       setIsLoading(true);
+      const { email, password } = data;
       await login(email, password);
       navigate('/');
     } catch (error) {
@@ -68,26 +84,28 @@ const Login = () => {
           <Text mt={2}>Login to Milky Farm</Text>
         </Box>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={4}>
-            <FormControl isRequired>
-              <FormLabel>Email</FormLabel>
+            <FormControl isInvalid={errors.email}>
+              <FormLabel htmlFor='email'>Email</FormLabel>
               <Input
+                id='email'
                 type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 placeholder='Enter your email'
+                {...register('email')}
               />
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isRequired>
-              <FormLabel>Password</FormLabel>
+            <FormControl isInvalid={errors.password}>
+              <FormLabel htmlFor='password'>Password</FormLabel>
               <Input
+                id='password'
                 type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 placeholder='Enter your password'
+                {...register('password')}
               />
+              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
 
             <Button
