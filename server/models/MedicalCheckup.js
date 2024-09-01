@@ -2,10 +2,12 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class MedicalCheckup extends Model {
+  static lastId = 0;
   static modelName = 'medicalCheckups';
 
   constructor(checkupDate, illness, cowId) {
-    super(ID_TYPE.INCREMENT);
+    super();
+    this.id = ++MedicalCheckup.lastId;
     this.checkupDate = checkupDate;
     this.illness = illness;
     this.cowId = cowId;

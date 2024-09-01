@@ -6,7 +6,7 @@ class Cow extends Model {
   static modelName = 'cows';
 
   constructor(id, entryDate, breed, insertedBy) {
-    super(ID_TYPE.CUSTOM);
+    super();
     this.id = id;
     this.entryDate = entryDate;
     this.breed = breed;

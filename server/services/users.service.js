@@ -2,9 +2,12 @@ const User = require('../models/User');
 const { NotFoundError } = require('../utils/errors');
 const { generatePassword } = require('../helpers/password.helper');
 const { hashPassword } = require('../helpers/bcrypt.helper');
+const { sendEmail } = require('../helpers/mail.helper');
 
 const createUser = async (data) => {
+  const { name, email } = data;
   const password = generatePassword();
+  sendEmail({ name, email, password });
   const hashedPassword = await hashPassword(password);
   const user = await User.create({ ...data, password: hashedPassword });
   delete user.password;

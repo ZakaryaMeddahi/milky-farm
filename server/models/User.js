@@ -2,10 +2,12 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class User extends Model {
+  static lastId = 1;
   static modelName = 'users';
 
   constructor(name, email, password, role) {
-    super(ID_TYPE.INCREMENT);
+    super();
+    this.id = ++User.lastId;
     this.name = name;
     this.email = email;
     this.password = password;

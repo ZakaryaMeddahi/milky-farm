@@ -2,10 +2,12 @@ const Model = require('../utils/db/Model');
 const { ID_TYPE } = require('../config/constants');
 
 class Birth extends Model {
+  static lastId = 0;
   static modelName = 'births';
 
   constructor(birthDate, motherCowId, insertedBy) {
-    super(ID_TYPE.INCREMENT);
+    super();
+    this.id = ++Birth.lastId;
     this.birthDate = birthDate;
     this.motherCowId = motherCowId;
     this.insertedBy = insertedBy;

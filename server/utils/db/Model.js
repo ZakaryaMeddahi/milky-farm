@@ -4,13 +4,7 @@ const writeDB = require('./writeDB');
 const { ID_TYPE } = require('../../config/constants');
 
 class Model {
-  // private field
-  static #lastId = 0;
-
-  constructor(idType) {
-    if (idType === ID_TYPE.INCREMENT) this.id = ++Model.#lastId;
-    else if (idType === ID_TYPE.UUID) this.id = uuidv4();
-  }
+  constructor() {}
 
   static async create(modelName, ...args) {
     const newObject = new this(...args);

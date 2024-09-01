@@ -2,17 +2,10 @@
   "users": [
     {
       "id": 1,
-      "name": "Zakarya Meddahi",
+      "name": "Admin Admin",
       "email": "admin@gmail.com",
       "password": "$2a$10$CuKNxTgQ5PmsFebl2AVaOezacB42.j4UE.ZmwVdOwXPGI6.ZlNPb2",
       "role": "admin"
-    },
-    {
-      "id": 2,
-      "name": "fake name",
-      "email": "fake@example.com",
-      "password": "$2a$10$axUZOEJlakb9fwWQxkxtlONYS4YhU2v2kkg.fhDJkE6oyduzwfuZa",
-      "role": "moderator"
     }
   ],
   "cows": [
