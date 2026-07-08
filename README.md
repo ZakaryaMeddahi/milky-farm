@@ -1,7 +1,7 @@
 # Milky Farm Management System
 
 <p align="center">
-  <img src="https://res.cloudinary.com/private-school/image/upload/v1725173490/milky-farm/milky-farm.png" alt="Milky Farm Logo" width='150'>
+  <img src="https://res.cloudinary.com/binary-storage/image/upload/v1725173490/milky-farm/milky-farm.png" alt="Milky Farm Logo" width='150'>
 </p>
 
 ## Overview
